@@ -190,3 +190,7 @@ output/hartwick/USGS_LPC_MI_FEMA_2019_C19_607517.las
 output/hartwick/USGS_LPC_MI_FEMA_2019_C19_607520.las
 output/hartwick/USGS_LPC_MI_FEMA_2019_C19_610517.las
 output/hartwick/USGS_LPC_MI_FEMA_2019_C19_610520.las
+output/hartwick/canopy.max.tif
+output/hartwick/canopy.max.tif.aux.xml
+output/hartwick/temp/ground.tif
+output/hartwick/temp/ground.tif.ovr
