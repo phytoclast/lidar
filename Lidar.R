@@ -56,7 +56,7 @@ ground[ground > 10000 | ground < -10000] <- NA
 if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
 
-surface <- grid_canopy(las.collection, res = res.new/3, algorithm = dsmtin())
+surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r())
 if(isvfeet){surface <- surface * 0.3048}
 surface[surface > 10000 | surface < -10000] <- NA
 if(!ishmeter){surface <- projectRaster(surface, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
@@ -66,7 +66,7 @@ plot(surface)
 canopy <- surface - ground
 canopy[canopy > 150] <- NA
 #canopy.max <- focal(canopy, w = focalWeight(canopy, d=5, type='circle'), fun = max, na.rm=T)
-canopy.max <- focal(canopy, w=matrix(1,3,3), fun = max, na.rm=T)
+canopy.max <- focal(canopy, w=matrix(c(6,10,6,10,10,10,6,10,6)/74*9,nrow = 3), fun = max, na.rm=T)
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
 writeRaster(canopy.max, paste0(path.new,'/','canopy.max.tif'), overwrite=T)
 plot(canopy, breaks = c(0,5,10,20,30,40,50), col=c('white', 'lightgreen', 'darkgreen', 'yellow', 'orange', 'red', 'purple'))
