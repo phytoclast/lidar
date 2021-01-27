@@ -194,3 +194,9 @@ output/hartwick/canopy.max.tif
 output/hartwick/canopy.max.tif.aux.xml
 output/hartwick/temp/ground.tif
 output/hartwick/temp/ground.tif.ovr
+output/gourdneck/canopy.max.tif
+output/gourdneck/overstory.max.tif
+output/gourdneck/overstory.max.tif.aux.xml
+output/gourdneck/overstory.tif
+output/hartwick/overstory.max.tif
+output/hartwick/overstory.tif
