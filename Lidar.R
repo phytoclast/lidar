@@ -75,7 +75,7 @@ ground[ground > 10000 | ground < -10000] <- NA
 if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
 
-surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r())
+surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r(2))
 if(isvfeet){surface <- surface * 0.3048}
 surface[surface > 10000 | surface < -10000] <- NA
 if(!ishmeter){surface <- projectRaster(surface, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
