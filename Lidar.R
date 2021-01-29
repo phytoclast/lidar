@@ -9,7 +9,7 @@ library(dplyr)
 library(stringr)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 circle <- function(grid, radius){ # creates a weighted in the shape of a circle for focal analysis
-  nc = floor(radius/(res(grid)[1])+1)*2+1
+  nc = floor(radius/(res(grid)[1]))*2+1
   mat <- matrix(1,nrow = nc, ncol = nc)
   mid = floor(nc/2)+1
   for (i in 1:nc){
@@ -31,15 +31,19 @@ circle <- function(grid, radius){ # creates a weighted in the shape of a circle 
 #Batch Processing  ----
 #Take a compressed LAZ files, metricate, then move to new folder as decompressed LAS files
 #
-path <- 'data/gourdneck'
-path.new <- 'output/gourdneck'
+path <- 'data/warren'
+path.new <- 'output/warren'
 fl <- list.files(path)
 file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
 crs.old <- as.character(Las@proj4string)
 crs.new <- str_replace(crs.old, '\\+units\\=ft','\\+units\\=m')
 crs.new <- str_replace(crs.new, '\\+vunits\\=ft','\\+vunits\\=m')
-isvfeet <- grepl('+vunits=ft', crs.old)
+crs.new <- str_replace(crs.old, '\\+units\\=us-ft','\\+units\\=m')
+crs.new <- str_replace(crs.new, '\\+vunits\\=us-ft','\\+vunits\\=m')
+isvfeet <- grepl('+vunits=ft', crs.old) | (grepl('+units=ft', crs.old) & !grepl('+vunits', crs.old))
+isvusfeet <- grepl('+vunits=us-ft', crs.old) | (grepl('+units=us-ft', crs.old) & !grepl('+vunits', crs.old))
+zfactor <- ifelse(isvfeet, 0.3048, ifelse(isvusfeet, 1200/3937, 1))
 ishmeter <- grepl('+units=m', crs.old)
 if(F){ #disabled, because it doesn't work
 for (i in 1:length(fl)){
@@ -49,8 +53,8 @@ for (i in 1:length(fl)){
     Las2 <- Las
     }else{
   Las2 <- spTransform(Las, CRS(crs.new))}
-  if(isvfeet){
-  Las2$Z <- Las2$Z *.3048}
+  
+  Las2$Z <- Las2$Z * zfactor
   #fix header ....
   #header.old <- wkt(Las)
   #header.new <- str_replace_all(header.old, 'foot','meter')
@@ -70,13 +74,13 @@ res.new <- res
 if(!ishmeter){res.new <- res/0.3048}
 
 ground <- grid_terrain(las.collection, res = res.new/3, algorithm = tin())
-if(isvfeet){ground <- ground * 0.3048}
+ground <- ground * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
 
 surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r(2))
-if(isvfeet){surface <- surface * 0.3048}
+surface <- surface * zfactor
 surface[surface > 10000 | surface < -10000] <- NA
 if(!ishmeter){surface <- projectRaster(surface, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
 writeRaster(surface, paste0(path.new,'/','surface.tif'), overwrite=T)
@@ -84,15 +88,15 @@ plot(surface)
 
 ground <- raster(paste0(path.new,'/','ground.tif'))
 surface <- raster(paste0(path.new,'/','surface.tif'))
-
-canopy <- surface - ground
+#ground.min <- focal(ground, w=circle(ground, 5), fun = min, na.rm=T) #some reason this is not working
+canopy <- surface - ground # - (ground - ground.min)/2
 canopy[canopy > 150 | canopy < -1] <- NA
+writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
 
 #canopy.max <- focal(canopy, w=matrix(c(6,10,6,10,10,10,6,10,6)/74*9,nrow = 3), fun = max, na.rm=T)
 canopy.max <- focal(canopy, w = circle(canopy, 5), fun = max, na.rm=T)
 canopy.light <- focal(canopy, w = circle(canopy, 2.5), fun = max, na.rm=T)
 
-writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
 writeRaster(canopy.max, paste0(path.new,'/','canopy.max.tif'), overwrite=T)
 plot(canopy, breaks = c(0,5,10,20,30,40,50), col=c('white', 'lightgreen', 'darkgreen', 'yellow', 'orange', 'red', 'purple'))
 overstory0 <- canopy < 5
@@ -103,4 +107,4 @@ overstory <- (canopy >= 5) + (canopy >= 15)
 writeRaster(overstory, paste0(path.new,'/','overstory.tif'), overwrite=T)
 writeRaster(overstory.max, paste0(path.new,'/','overstory.max.tif'), overwrite=T)
 
-plot(overstory.max)
+plot(ground)

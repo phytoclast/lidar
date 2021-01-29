@@ -202,3 +202,10 @@ output/hartwick/overstory.max.tif
 output/hartwick/overstory.tif
 *.tif
 *.xml
+*.laz
+*.las
+*.url
+*.zip
+*.html
+data/porters/USGS_LPC_TN_Eastern_2_16_B16_Del2_2016_2738493SW_LAS_2017_meta.txt
+data/porters/USGS_LPC_TN_Eastern_2_16_B16_Del2_2016_2738493NW_LAS_2017_meta.txt
