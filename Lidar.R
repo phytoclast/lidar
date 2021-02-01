@@ -7,8 +7,9 @@ library(future)
 library(viridis)
 library(dplyr)
 library(stringr)
+library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-circle <- function(grid, radius){ # creates a weighted in the shape of a circle for focal analysis
+circle <- function(grid, radius){ # creates a weighted in the shape of a circle for focal analysis# grid=ground; radius=5
   nc = floor(radius/(res(grid)[1]))*2+1
   mat <- matrix(1,nrow = nc, ncol = nc)
   mid = floor(nc/2)+1
@@ -26,13 +27,14 @@ circle <- function(grid, radius){ # creates a weighted in the shape of a circle 
            ifelse((((x-.5-mid)^2+(y-.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
            ifelse((((x+.5-mid)^2+(y-.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
            ifelse((((x-.5-mid)^2+(y+.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1))/9}}
+  mat=mat/sum(mat)
   return(mat)}
 
 #Batch Processing  ----
 #Take a compressed LAZ files, metricate, then move to new folder as decompressed LAS files
 #
-path <- 'data/warren'
-path.new <- 'output/warren'
+path <- 'data/porters/las'
+path.new <- 'output/porters'
 fl <- list.files(path)
 file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
@@ -68,7 +70,7 @@ for (i in 1:length(fl)){
 #create a catalog of pre-metricated lidar tiles ----
 #
 #las.collection <- readLAScatalog(path.new)
-las.collection <- readLAScatalog(path)
+las.collection <- readLAScatalog(path, filter="-drop_class 7 18")
 res <- 5
 res.new <- res
 if(!ishmeter){res.new <- res/0.3048}
@@ -86,25 +88,36 @@ if(!ishmeter){surface <- projectRaster(surface, crs = CRS(crs.new), method = 'bi
 writeRaster(surface, paste0(path.new,'/','surface.tif'), overwrite=T)
 plot(surface)
 
-ground <- raster(paste0(path.new,'/','ground.tif'))
-surface <- raster(paste0(path.new,'/','surface.tif'))
-#ground.min <- focal(ground, w=circle(ground, 5), fun = min, na.rm=T) #some reason this is not working
-canopy <- surface - ground # - (ground - ground.min)/2
+ground <- rast(paste0(path.new,'/','ground.tif'))
+surface <- rast(paste0(path.new,'/','surface.tif'))
+t1 <- Sys.time()
+#ground.min <- focal(ground, w=circle(ground, 5), fun = sum, na.rm=T) #some reason min is not working, and takes too long
+#ground.min <- focal(ground, w=matrix(c(6,10,6,10,10,10,6,10,6)/74,nrow = 3), fun = sum, na.rm=T) #some reason this is not working
+#ground.min <- focal(ground, w=matrix(c(2,8,10,8,2,8,10,10,10,8,10,10,10,10,10,8,10,10,10,8,2,8,10,8,2),nrow = 5)/10, fun = sum, na.rm=T) #some reason this
+#ground.min <- focal(ground, w=focalMat(ground, 2, type='Gauss'), fun = sum, na.rm=T) #terra focal window seems buggy
+#ground.min <- focal(ground, w=focalWeight(ground, 6, type='circle'), fun = sum, na.rm=F) #
+ground.min <- focal(ground, w=3, fun = min) #
+ground.mean <- focal(ground, w=3, fun = mean) #
+Sys.time() - t1
+#plot((ground.mean - ground.min) )
+correction <- ground.mean - ground.min
+canopy <- surface - ground - correction/2
 canopy[canopy > 150 | canopy < -1] <- NA
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
+writeRaster(correction, paste0(path.new,'/','correction.tif'), overwrite=T)
 
 #canopy.max <- focal(canopy, w=matrix(c(6,10,6,10,10,10,6,10,6)/74*9,nrow = 3), fun = max, na.rm=T)
-canopy.max <- focal(canopy, w = circle(canopy, 5), fun = max, na.rm=T)
-canopy.light <- focal(canopy, w = circle(canopy, 2.5), fun = max, na.rm=T)
+#canopy.max <- focal(canopy, w = circle(canopy, 5), fun = max, na.rm=T)
+#canopy.light <- focal(canopy, w = circle(canopy, 2.5), fun = max, na.rm=T)
 
-writeRaster(canopy.max, paste0(path.new,'/','canopy.max.tif'), overwrite=T)
-plot(canopy, breaks = c(0,5,10,20,30,40,50), col=c('white', 'lightgreen', 'darkgreen', 'yellow', 'orange', 'red', 'purple'))
-overstory0 <- canopy < 5
-overstory1 <- canopy >= 5 & canopy < 15
-overstory2 <- canopy >= 15
-overstory.max <- (canopy.max * overstory2) + (canopy.light * overstory1) + (canopy * overstory0)
-overstory <- (canopy >= 5) + (canopy >= 15)
-writeRaster(overstory, paste0(path.new,'/','overstory.tif'), overwrite=T)
-writeRaster(overstory.max, paste0(path.new,'/','overstory.max.tif'), overwrite=T)
+#writeRaster(canopy.max, paste0(path.new,'/','canopy.max.tif'), overwrite=T)
+plot(canopy, breaks = c(0,5,10,20,30,40,50), col=c('white', 'lightgreen', 'darkgreen', 'yellow', 'orange', 'red', 'purple'), maxcell=1000000)
+#overstory0 <- canopy < 5
+#overstory1 <- canopy >= 5 & canopy < 15
+#overstory2 <- canopy >= 15
+#overstory.max <- (canopy.max * overstory2) + (canopy.light * overstory1) + (canopy * overstory0)
+#overstory <- (canopy >= 5) + (canopy >= 15)
+#writeRaster(overstory, paste0(path.new,'/','overstory.tif'), overwrite=T)
+#writeRaster(overstory.max, paste0(path.new,'/','overstory.max.tif'), overwrite=T)
 
-plot(ground)
+
