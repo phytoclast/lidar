@@ -33,8 +33,8 @@ circle <- function(grid, radius){ # creates a weighted in the shape of a circle 
 #Batch Processing  ----
 #Take a compressed LAZ files, metricate, then move to new folder as decompressed LAS files
 #
-path <- 'data/porters/las'
-path.new <- 'output/porters'
+path <- 'data/porters2'
+path.new <- 'output/porters2'
 fl <- list.files(path)
 file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
@@ -75,34 +75,42 @@ res <- 5
 res.new <- res
 if(!ishmeter){res.new <- res/0.3048}
 
+#generate ground and surface rasters from LAS dataset ----
 ground <- grid_terrain(las.collection, res = res.new/3, algorithm = tin())
 ground <- ground * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
+plot(ground)
 
-surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r(2))
+surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r(3))
 surface <- surface * zfactor
 surface[surface > 10000 | surface < -10000] <- NA
 if(!ishmeter){surface <- projectRaster(surface, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
 writeRaster(surface, paste0(path.new,'/','surface.tif'), overwrite=T)
 plot(surface)
 
+#Create canopy layer, with filters to clean up outliers ----
 ground <- rast(paste0(path.new,'/','ground.tif'))
 surface <- rast(paste0(path.new,'/','surface.tif'))
-t1 <- Sys.time()
-#ground.min <- focal(ground, w=circle(ground, 5), fun = sum, na.rm=T) #some reason min is not working, and takes too long
-#ground.min <- focal(ground, w=matrix(c(6,10,6,10,10,10,6,10,6)/74,nrow = 3), fun = sum, na.rm=T) #some reason this is not working
-#ground.min <- focal(ground, w=matrix(c(2,8,10,8,2,8,10,10,10,8,10,10,10,10,10,8,10,10,10,8,2,8,10,8,2),nrow = 5)/10, fun = sum, na.rm=T) #some reason this
-#ground.min <- focal(ground, w=focalMat(ground, 2, type='Gauss'), fun = sum, na.rm=T) #terra focal window seems buggy
-#ground.min <- focal(ground, w=focalWeight(ground, 6, type='circle'), fun = sum, na.rm=F) #
-ground.min <- focal(ground, w=3, fun = min) #
-ground.mean <- focal(ground, w=3, fun = mean) #
-Sys.time() - t1
+
+ground.min <- focal(ground, w=3, fun = min)
+ground.mean <- focal(ground, w=3, fun = mean)
+
+
 #plot((ground.mean - ground.min) )
 correction <- ground.mean - ground.min
 canopy <- surface - ground - correction/2
-canopy[canopy > 150 | canopy < -1] <- NA
+canopy.focmax <- focal(canopy, w=3, fun = max)
+canopy.focmean <- focal(canopy, w=3, fun = mean)
+outliers <- canopy.focmax - canopy.focmean
+outliers[outliers >= 50] <- 0
+outliers[outliers < 50] <- 1
+outliers <- focal(outliers, w=3, fun = min)
+outliers[outliers == 0] <- NA
+canopy <- canopy * outliers
+canopy[canopy < 0] <- 0
+canopy[canopy > 115] <- NA
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
 writeRaster(correction, paste0(path.new,'/','correction.tif'), overwrite=T)
 
@@ -120,4 +128,5 @@ plot(canopy, breaks = c(0,5,10,20,30,40,50), col=c('white', 'lightgreen', 'darkg
 #writeRaster(overstory, paste0(path.new,'/','overstory.tif'), overwrite=T)
 #writeRaster(overstory.max, paste0(path.new,'/','overstory.max.tif'), overwrite=T)
 
-
+df <- as.data.frame(canopy, xy=TRUE)
+hist(df$surface)
