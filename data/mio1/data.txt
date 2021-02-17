@@ -1,0 +1,15 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_775457.laz
+https://nationalmap.gov/3DEP/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_770457.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_775452.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_777455.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_777457.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_775455.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_772455.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_772452.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_772457.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_770452.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_777452.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alcona_Oscoda_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_770455.laz

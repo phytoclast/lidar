@@ -1,0 +1,8 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Clinton_2017_LAS_2019/metadata/USGS_LPC_MI_31Co_Clinton_2017_LAS_2019.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Clinton_2017_LAS_2019/laz/USGS_LPC_MI_31Co_Clinton_2017_035542_LAS_2019.laz
+http://ned.usgs.gov/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Clinton_2017_LAS_2019/laz/USGS_LPC_MI_31Co_Clinton_2017_035545_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Clinton_2017_LAS_2019/laz/USGS_LPC_MI_31Co_Clinton_2017_037542_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Clinton_2017_LAS_2019/laz/USGS_LPC_MI_31Co_Clinton_2017_037545_LAS_2019.laz

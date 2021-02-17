@@ -1,0 +1,11 @@
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/metadata/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_005437_LAS_2019.laz
+https://nationalmap.gov/3DEP/
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_002440_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_005435_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_002435_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_007435_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_005440_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_002437_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_007440_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_31Co_Eaton_2016_LAS_2019/laz/USGS_LPC_MI_31Co_Eaton_2016_007437_LAS_2019.laz

@@ -33,8 +33,9 @@ circle <- function(grid, radius){ # creates a weighted in the shape of a circle 
 #Batch Processing  ----
 #Take a compressed LAZ files, metricate, then move to new folder as decompressed LAS files
 #
-path <- 'data/porters2'
-path.new <- 'output/porters2'
+path <- 'data/yunque/laz'
+path.new <- 'output/yunque'
+if(!dir.exists(path.new)){dir.create(path.new)}
 fl <- list.files(path)
 file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
