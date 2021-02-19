@@ -9,6 +9,9 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+path <- 'data/mtwash2/laz'
+path.new <- 'output/mtwash2'
+if(!dir.exists(path.new)){dir.create(path.new)}
 circle <- function(grid, radius){ # creates a weighted in the shape of a circle for focal analysis# grid=ground; radius=5
   nc = floor(radius/(res(grid)[1]))*2+1
   mat <- matrix(1,nrow = nc, ncol = nc)
@@ -33,9 +36,8 @@ circle <- function(grid, radius){ # creates a weighted in the shape of a circle 
 #Batch Processing  ----
 #Take a compressed LAZ files, metricate, then move to new folder as decompressed LAS files
 #
-path <- 'data/yunque/laz'
-path.new <- 'output/yunque'
-if(!dir.exists(path.new)){dir.create(path.new)}
+
+
 fl <- list.files(path)
 file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")

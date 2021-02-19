@@ -1,0 +1,9 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_NH_Umbagog_2016_LAS_2019/metadata/USGS_LPC_NH_Umbagog_2016_LAS_2019.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_NH_Umbagog_2016_LAS_2019/laz/USGS_LPC_NH_Umbagog_2016_19TCK319903_LAS_2019.laz
+https://nationalmap.gov/3DEP/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_NH_Umbagog_2016_LAS_2019/laz/USGS_LPC_NH_Umbagog_2016_19TCK316903_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_NH_Umbagog_2016_LAS_2019/laz/USGS_LPC_NH_Umbagog_2016_19TCK321903_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_NH_Umbagog_2016_LAS_2019/laz/USGS_LPC_NH_Umbagog_2016_19TCK315903_LAS_2019.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_NH_Umbagog_2016_LAS_2019/laz/USGS_LPC_NH_Umbagog_2016_19TCK318903_LAS_2019.laz
