@@ -1,0 +1,8 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AK_FairbanksNSB_QL2_2017_LAS_2018/metadata/USGS_LPC_AK_FairbanksNSB_QL2_2017_LAS_2018.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AK_FairbanksNSB_QL2_2017_LAS_2018/laz/USGS_LPC_AK_FairbanksNSB_QL2_2017_FB17_3196_LAS_2018.laz
+http://ned.usgs.gov/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AK_FairbanksNSB_QL2_2017_LAS_2018/laz/USGS_LPC_AK_FairbanksNSB_QL2_2017_FB17_3197_LAS_2018.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AK_FairbanksNSB_QL2_2017_LAS_2018/laz/USGS_LPC_AK_FairbanksNSB_QL2_2017_FB17_3284_LAS_2018.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AK_FairbanksNSB_QL2_2017_LAS_2018/laz/USGS_LPC_AK_FairbanksNSB_QL2_2017_FB17_3285_LAS_2018.laz

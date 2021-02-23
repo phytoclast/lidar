@@ -9,29 +9,13 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-path <- 'data/mtwash2/laz'
-path.new <- 'output/mtwash2'
+folder <- 'wade'
+path <- paste0('data/', folder,'/laz')
+path.new <- paste0('output/', folder)
+override.epsg <- read.delim( paste0('data/', folder,'/epsg.txt'))
+override.epsg <- CRS(paste0('+init=EPSG:',override.epsg[1,1]))
+
 if(!dir.exists(path.new)){dir.create(path.new)}
-circle <- function(grid, radius){ # creates a weighted in the shape of a circle for focal analysis# grid=ground; radius=5
-  nc = floor(radius/(res(grid)[1]))*2+1
-  mat <- matrix(1,nrow = nc, ncol = nc)
-  mid = floor(nc/2)+1
-  for (i in 1:nc){
-    for(j in 1:nc){
-      x = i
-      y = j
-      mat[x,y] <- 
-        (ifelse((((x-mid)^2+(y-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x+.5-mid)^2+(y-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x-.5-mid)^2+(y-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x-mid)^2+(y+.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x-mid)^2+(y-.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x+.5-mid)^2+(y+.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x-.5-mid)^2+(y-.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x+.5-mid)^2+(y-.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1)+
-           ifelse((((x-.5-mid)^2+(y+.5-mid)^2)^0.5/(mid-1) >= 1), 0, 1))/9}}
-  mat=mat/sum(mat)
-  return(mat)}
 
 #Batch Processing  ----
 #Take a compressed LAZ files, metricate, then move to new folder as decompressed LAS files
@@ -41,7 +25,9 @@ circle <- function(grid, radius){ # creates a weighted in the shape of a circle 
 fl <- list.files(path)
 file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
+
 crs.old <- as.character(Las@proj4string)
+if(is.na(crs.old)){crs.old <- override.epsg}
 crs.new <- str_replace(crs.old, '\\+units\\=ft','\\+units\\=m')
 crs.new <- str_replace(crs.new, '\\+vunits\\=ft','\\+vunits\\=m')
 crs.new <- str_replace(crs.old, '\\+units\\=us-ft','\\+units\\=m')
@@ -74,12 +60,13 @@ for (i in 1:length(fl)){
 #
 #las.collection <- readLAScatalog(path.new)
 las.collection <- readLAScatalog(path, filter="-drop_class 7 18")
-res <- 5
+res <- 3
 res.new <- res
 if(!ishmeter){res.new <- res/0.3048}
 
 #generate ground and surface rasters from LAS dataset ----
 ground <- grid_terrain(las.collection, res = res.new/3, algorithm = tin())
+if(is.na(crs(ground))){crs(ground) <- crs.old}
 ground <- ground * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
@@ -87,6 +74,7 @@ writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
 plot(ground)
 
 surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r(3))
+if(is.na(crs(surface))){crs(surface) <- crs.old}
 surface <- surface * zfactor
 surface[surface > 10000 | surface < -10000] <- NA
 if(!ishmeter){surface <- projectRaster(surface, crs = CRS(crs.new), method = 'bilinear', res = res/3)}
