@@ -1,0 +1,6 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/NED/LPC/projects/ARRA-TN_SmokyMtns_2011/metadata/ARRA-TN_SmokyMtns_2011.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/ARRA-TN_SmokyMtns_2011/laz/ARRA-TN_SmokyMtns_2011_000006.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/NED/LPC/projects/ARRA-TN_SmokyMtns_2011/las/tiled/ARRA-TN_SmokyMtns_2011_000006.zip
+http://ned.usgs.gov/
+http://nationalmap.gov/viewer.html

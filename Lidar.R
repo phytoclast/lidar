@@ -9,7 +9,7 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder <- 'wade'
+folder <- 'ramsey2'
 path <- paste0('data/', folder,'/laz')
 path.new <- paste0('output/', folder)
 override.epsg <- read.delim( paste0('data/', folder,'/epsg.txt'))
@@ -60,9 +60,11 @@ for (i in 1:length(fl)){
 #
 #las.collection <- readLAScatalog(path.new)
 las.collection <- readLAScatalog(path, filter="-drop_class 7 18")
-res <- 3
+res <- 6
+subcircle <- 1.5
+subcircle.new <- subcircle
 res.new <- res
-if(!ishmeter){res.new <- res/0.3048}
+if(!ishmeter){res.new <- res/0.3048; subcircle.new <- subcircle.new/0.3048}
 
 #generate ground and surface rasters from LAS dataset ----
 ground <- grid_terrain(las.collection, res = res.new/3, algorithm = tin())
@@ -73,7 +75,7 @@ if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bili
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
 plot(ground)
 
-surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r(3))
+surface <- grid_canopy(las.collection, res = res.new/3, algorithm = p2r(subcircle.new))
 if(is.na(crs(surface))){crs(surface) <- crs.old}
 surface <- surface * zfactor
 surface[surface > 10000 | surface < -10000] <- NA

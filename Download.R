@@ -1,6 +1,6 @@
 library(stringr)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-wd <- 'wade'
+wd <- 'bullh'
 fn <- 'data.txt'
 laz.path <- paste0('data/', wd,'/laz')
 filelist <- paste0('data/', wd,'/',fn)
