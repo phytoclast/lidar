@@ -9,7 +9,10 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder <- 'muir'
+folder = 'selva'
+troubled = FALSE  #TRUE if data source is of sparse poor quality
+canopyonly = FALSE
+notsquare = TRUE #TRUE if data source is of is irregularly shaped
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
 path.new <- paste0('output/', folder)
@@ -49,17 +52,22 @@ ishmeter <- grepl('+units=m', crs.old)
 # establish resolution----
 
 res <- 1
-subcircle <- res/2
+subcircle <- res
 hfactor <- ifelse(!ishmeter, 0.3048, 1)
 
 #generate ground and surface rasters from LAS dataset ----
+if(!canopyonly){
 las.collection <- readLAScatalog(path, filter="-drop_class 7 18")
-ground.original <- grid_terrain(las.collection, res = res/hfactor, algorithm = tin())
-if(is.na(crs(ground))){crs(ground) <- crs.old}
+if(notsquare){
+  ground.original <- grid_terrain(las.collection, res = res/hfactor, algorithm = knnidw(k = 10, p = 2, rmax = 50/hfactor))
+}else{
+  ground.original <- grid_terrain(las.collection, res = res/hfactor, algorithm = tin())
+}
+if(is.na(crs(ground.original))){crs(ground.original) <- crs.old}
 ground <- ground.original * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bilinear', res = res)}
-writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
+writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, options="COMPRESS=LZW")
 plot(ground)
 
 #normalize height, remove outliers, generate canopy height model ----
@@ -67,23 +75,28 @@ plot(ground)
 for (i in 1:length(fl)){
   file.original <- fl[i]
   Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
-  las.norm <- normalize_height(Las,  ground.original)
+  las.norm <- normalize_height(Las,  ground.original, na.rm = TRUE)
   las.norm <- filter_noise.LAS(las.norm, 1.5, hfactor)
   file.new <- paste0(stringr::str_split_fixed(file.original,'\\.',2)[1],'.laz')
   writeLAS(las.norm, paste0(path.norm,'/',file.new))
 }
-
+}
 las.norm <- readLAScatalog(path.norm)
 timeA <- Sys.time()
-canopy <- grid_canopy(las.norm, res = res/hfactor, algorithm = 
-                        #dsmtin(max_edge = 5))
-                        #p2r(subcircle/hfactor))
-                        pitfree(thresholds = c(0, 2, 5, 10, 15, 20, 25, 30)/zfactor, max_edge = c(0, 3)/hfactor))
+#Create canopy model depending on whether data source has problems ----
+if(!troubled){
+  canopy <- grid_canopy(las.norm, res = res/hfactor, algorithm = 
+                          pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 3)/hfactor))
+}else{
+  canopy <- grid_canopy(las.norm, res = res/hfactor, algorithm = 
+                          pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 5)/hfactor, subcircle = subcircle/hfactor*1))
+}
+
 if(is.na(crs(canopy))){crs(canopy) <- crs.old}
 canopy <- canopy * zfactor
 canopy[canopy > 115 | canopy < -1] <- NA
 if(!ishmeter){canopy <- projectRaster(canopy, crs = CRS(crs.new), method = 'bilinear', res = res)}
-writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
+writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, options="COMPRESS=LZW")
 plot(canopy)
 Sys.time()-timeA
 
