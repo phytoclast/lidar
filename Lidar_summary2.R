@@ -7,7 +7,7 @@
   library(ggplot2)
   setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
   stands <- st_read('data/stands.shp')
-  
+  threemeter <- TRUE # use 3 meter reduced resolution version
   folderlist <- unique((stands$folder))
   
   vhtsum <- data.frame(site = 'zzz', open=0.1, tshrub.cover=0.1, tree.cover=0.1, tree05=0.1, tree15=0.1, tree30=0.1, tree45=0.1, tree60=0.1, ht05=0.1, ht25=0.1,ht50=0.1,ht75=0.1, ht95=0.1, htmax=0.1)
@@ -16,9 +16,11 @@
   
   path <- paste0('output/',folderlist[i])
   
-  
-  canopy <- rast(paste0(path,'/','canopy.tif'))
-  
+  if(!threemeter){
+    canopy <- rast(paste0(path,'/','canopy.tif'))
+  }else{
+    canopy <- rast(paste0(path,'/','canopy3m.tif'))
+  }
   veg <- subset(stands, folder %in% folderlist[i])
   veg$id <- as.numeric(rownames(veg))
   veg.t <- st_drop_geometry(veg)
@@ -70,4 +72,9 @@
   vhtsum1 <- merge(cover, percentiles.trees, by='site', all.x=T)
   vhtsum <- rbind(vhtsum, vhtsum1)
   };vhtsum <- vhtsum[-1,];rm(vhtsum1)
-  write.csv(vhtsum, 'output/vhtsum.csv', row.names = F)
+  if(!threemeter){
+    write.csv(vhtsum, 'output/vhtsum.csv', row.names = F)
+  }else{
+    write.csv(vhtsum, 'output/vhtsum3m.csv', row.names = F)
+  }
+  
