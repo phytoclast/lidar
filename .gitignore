@@ -325,3 +325,12 @@ data/wade/meta/bare_earth/be_rasters/breaklines/geodatabase/GA_West_Large_AOI_Co
 data/selva/webinar-1616286937.ics
 data/selva/laselva_lidar_dtm.img
 temp/grid_metrics.vrt
+output/bullhead/ground.tif.ovr
+output/blandford/ttps.shx
+output/blandford/ttps.shp
+output/blandford/ttps.prj
+output/blandford/ttps.dbf
+output/blandford/crowns.shx
+output/blandford/crowns.shp
+output/blandford/crowns.prj
+output/blandford/crowns.dbf
