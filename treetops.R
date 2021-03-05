@@ -22,7 +22,7 @@
   plot(heights, ws, type = "l",  ylim = c(0,30))
   
  
-  for (i in 1:length(folderlist)){i=11
+  for (i in 1:length(folderlist)){
   
   path <- paste0('output/',folderlist[i])
   
@@ -36,7 +36,8 @@
   canopy.trees <- dalponte2016(canopy, ttops, th_tree = 5, th_seed = 0.45, th_cr = 0.55, max_cr = 25, ID = "treeID")
   crowns <- canopy.trees()
   plot(crowns, col = pastel.colors(1000))
-  
+  writeRaster(crowns, filename= paste0(path,'/','crowns.tif'),
+              overwrite=TRUE, wopt=list(gdal=c("COMPRESS=LZW")))
   v <- terra::as.polygons(rast(crowns))
   crowns.sf <- st_as_sf(as.data.frame(v, geom=TRUE), wkt="geometry", crs=crs(canopy))
   
