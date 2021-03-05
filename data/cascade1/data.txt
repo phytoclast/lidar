@@ -1,0 +1,12 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/metadata/USGS_LPC_WA_GlacierPeak_2014_LAS_2016.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/laz/USGS_LPC_WA_GlacierPeak_2014_10UFU5136_LAS_2016.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/las/tiled/USGS_LPC_WA_GlacierPeak_2014_10UFU5136_LAS_2016.zip
+http://ned.usgs.gov/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/laz/USGS_LPC_WA_GlacierPeak_2014_10UFU5036_LAS_2016.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/las/tiled/USGS_LPC_WA_GlacierPeak_2014_10UFU5036_LAS_2016.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/laz/USGS_LPC_WA_GlacierPeak_2014_10UFU4936_LAS_2016.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/las/tiled/USGS_LPC_WA_GlacierPeak_2014_10UFU4936_LAS_2016.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/laz/USGS_LPC_WA_GlacierPeak_2014_10UFU4836_LAS_2016.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_WA_GlacierPeak_2014_LAS_2016/las/tiled/USGS_LPC_WA_GlacierPeak_2014_10UFU4836_LAS_2016.zip

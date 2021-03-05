@@ -15,8 +15,7 @@
   for (i in 1:length(folderlist)){
   
   path <- paste0('output/',folderlist[i])
-  
-  
+ if(!file.exists(paste0(path,'/','gshade.tif'))){
   canopy <- raster(paste0(path,'/','canopy.tif'))
   ground <- raster(paste0(path,'/','ground.tif'))
   g.slope <- terrain(ground,opt="slope")
@@ -29,6 +28,6 @@
   s.aspect <- terrain(surface,opt="aspect")
   sshade <- hillShade(s.slope, s.aspect, angle = 45, normalize=TRUE) 
   writeRaster(sshade, filename= paste0(path,'/','sshade.tif'),
-              overwrite=TRUE, wopt=list(gdal=c("COMPRESS=LZW")))
+              overwrite=TRUE, wopt=list(gdal=c("COMPRESS=LZW")))}
   }
   
