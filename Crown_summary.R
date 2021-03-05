@@ -10,9 +10,9 @@ stands <- st_read('data/stands.shp')
 
 folderlist <- unique((stands$folder))
 
-crowndist <- data.frame(site = 'zzz',class = 'zzz', area=0.1, ht05=0.1, ht25=0.1,ht50=0.1,ht75=0.1, ht95=0.1, htmax=0.1, width=0.1)
+crowndist <- data.frame(site = 'zzz',crown = 'zzz', area=0.1, ht50=0.1, htmax=0.1, width=0.1)
 
-for (i in 1:length(folderlist)){
+for (i in 1:length(folderlist)){ #
 
 path <- paste0('output/',folderlist[i])
 
@@ -43,26 +43,12 @@ vht <- merge(vht, veg.t, by='id')
 #get median and 5-95 quantiles ----
 percentiles.trees <- ddply(vht, .(site, crown), summarise,
                            area = length(ht), 
-                           ht05 = quantile(ht, 0.05), 
-                           ht25 = quantile(ht, 0.25),
                            ht50 = quantile(ht, 0.5),
-                           ht75 = quantile(ht, 0.75),
-                           ht95 = quantile(ht, 0.95), htmax = max(ht)
-)
-percentiles.trees$class <- ifelse(percentiles.trees$htmax >= 60, 'superemergent', 
-                                  ifelse(percentiles.trees$htmax >= 45, 'emergent', 
-                                         ifelse(percentiles.trees$htmax >= 30, 'high', 
-                                                ifelse(percentiles.trees$htmax >= 15, 'medium', 'low'))))
-                                  
-percentiles.trees <- ddply(percentiles.trees, .(site, class), summarise,
-                           area = round(mean(area),2),
-                           ht05 = round(mean(ht05),2), 
-                           ht25 = round(mean(ht25),2), 
-                           ht50 = round(mean(ht50),2), 
-                           ht75 = round(mean(ht75),2), 
-                           ht95 = round(mean(ht95),2), htmax = round(mean(htmax),2)
+                           htmax = max(ht)
 )
 percentiles.trees$width <-  (percentiles.trees$area/3.141592)^0.5*2
 crowndist <- rbind(crowndist, percentiles.trees)
 }; crowndist <- crowndist[-1,]
   write.csv(crowndist, 'output/crowndist.csv', row.names = F)
+  
+  
