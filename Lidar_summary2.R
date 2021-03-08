@@ -8,7 +8,7 @@ library(ggplot2)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 stands <- st_read('data/stands.shp')
 hectarefreq <- FALSE # TRUE if analyze gap and emergent frequency
-
+mastervht <- 0
 
 
 folderlist <- unique((stands$folder))
@@ -18,7 +18,7 @@ if(!hectarefreq){
   vhtsum <- data.frame(site = 'zzz', open=0.1, tshrub.cover=0.1, tree.cover=0.1, tree05=0.1, tree15=0.1, tree30=0.1, tree45=0.1, tree60=0.1, ht05=0.1, ht25=0.1,ht50=0.1,ht75=0.1, ht95=0.1, htmax=0.1,  gapAre=0.1, gapHa=0.1, emergAre=0.1, emergHa=0.1)
 }
 
-for (i in 1:length(folderlist)){
+for (i in 1:length(folderlist)){i=19
 
 path <- paste0('output/',folderlist[i])
 
@@ -62,9 +62,18 @@ if(!hectarefreq){
   colnames(vht) <- c('x', 'y', 'id', 'ht', 'gapAre', 'gapHa', 'emergAre', 'emergHa')
 }
 
-vht <- subset(vht, !ht >100)
-vht <- merge(vht, veg.t, by='id')
+# canopy2 <-  crop(canopy, extent(veg))
+# plot(canopy2 >50)
+# plot(veg, add=T)
+canopy2 <- (veg.r *0 )+canopy
 
+vht <- subset(vht, !ht >116)
+vht <- merge(vht, veg.t, by='id')
+if(length(mastervht) < 2){
+  mastervht <- vht
+}else{
+  mastervht <- rbind(mastervht, vht)
+}
 #calculate percentage above 5 meters ----
 
 vht$tree <- (vht$ht >= 5)*1
@@ -115,3 +124,4 @@ if(!hectarefreq){
   write.csv(vhtsum, 'output/vhtsumfreq.csv', row.names = F)
 }
 
+saveRDS(mastervht, 'output/vht.RDS')
