@@ -9,10 +9,10 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'selva'
+folder = 'prdry'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
-notsquare = TRUE #TRUE if data source is of is irregularly shaped
+notsquare = FALSE #TRUE if data source is of is irregularly shaped
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
 path.new <- paste0('output/', folder)
