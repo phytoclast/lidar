@@ -86,7 +86,7 @@ vht$tree60 <- (vht$ht >= 60)*1
 percentiles.trees <- vht
 percentiles.trees$httree <- ifelse(percentiles.trees$ht >=5, percentiles.trees$ht, NA)
 percentiles.trees <- ddply(percentiles.trees, .(site), summarise,
-                           open = round(mean(open, na.rm=T),2), 
+                           open = round(mean(open, na.rm=T)*100,2), 
                            tscrub = round(mean(tscrub, na.rm=T)*100,2), 
                            tree05 = round(mean(tree05, na.rm=T)*100,2), 
                            tree15 = round(mean(tree15, na.rm=T)*100,2), 
