@@ -188,4 +188,4 @@ percentiles.crowns <- ddply(crown.dist, .(site), summarise,
                             crown95 = round(wtd.quantile(htmax,weights=area, 0.95),2),
                             crownmax = round(max(htmax),2)
 )
-
+write.csv(percentiles.crowns,'output/crownsum.csv', row.names = F)
