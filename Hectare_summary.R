@@ -29,6 +29,9 @@ veg.r <- rast('output/veg.r.tif')
 
 ##frequency of gaps and emergent ----
 canopy1m <- canopy;canopy1m[canopy1m<5 |canopy>116]<- NA
+# canopy5m <- aggregate(canopy1m, fun = 'max', fact=5, na.rm=T);names(canopy5m)<-'canopy5m'
+# canopy10min2 <- aggregate(canopy5m, fun = 'min', fact=2, na.rm=T);names(canopy10min2)<-'canopy10min2'
+# canopy10min <- aggregate(canopy1m, fun = 'min', fact=10, na.rm=T);names(canopy10min)<-'canopy10min'
 canopy10m <- aggregate(canopy1m, fun = 'max', fact=10, na.rm=T);names(canopy10m)<-'canopy10m'
 canopy20m <- aggregate(canopy10m, fun = 'max', fact=2, na.rm=T);names(canopy20m)<-'canopy20m'
 canopy50m <- aggregate(canopy10m, fun = 'max', fact=5, na.rm=T);names(canopy50m)<-'canopy50m'
@@ -36,6 +39,9 @@ canopy80m <- aggregate(canopy10m, fun = 'max', fact=8, na.rm=T);names(canopy80m)
 canopy100m <- aggregate(canopy10m, fun = 'max', fact=10, na.rm=T);names(canopy100m)<-'canopy100m'
 canopy125m <- aggregate(canopy1m, fun = 'max', fact=125, na.rm=T);names(canopy125m)<-'canopy125m'
   
+# canopy5m <-  disaggregate(canopy5m,  method="near", fact=5); canopy5m <- crop(canopy5m, canopy)
+# canopy10min <-  disaggregate(canopy10min,  method="near", fact=10); canopy10min <- crop(canopy10min, canopy)
+# canopy10min2 <-  disaggregate(canopy10min2,  method="near", fact=10); canopy10min2 <- crop(canopy10min2, canopy)
 canopy10m <-  disaggregate(canopy10m,  method="near", fact=10); canopy10m <- crop(canopy10m, canopy)
 canopy20m <-  disaggregate(canopy20m,  method="near", fact=20); canopy20m <- crop(canopy20m, canopy)
 canopy50m <-  disaggregate(canopy50m,  method="near", fact=50); canopy50m <- crop(canopy50m, canopy)
@@ -47,8 +53,10 @@ canopy100m <- (canopy100m*2+canopy80m+canopy125m)/4
 
 
 
+#vht <- c(veg.r, canopy, canopy10min, canopy10min2, canopy5m, canopy10m, canopy20m, canopy50m, canopy100m)
 vht <- c(veg.r, canopy, canopy10m, canopy20m, canopy50m, canopy100m)
 vht <- as.data.frame(vht, xy=T, na.rm=FALSE)
+#colnames(vht) <- c('x', 'y', 'id', 'ht', 'c10min', 'c10min2', 'c5m', 'c10m', 'c20m','c50m','c100m')
 colnames(vht) <- c('x', 'y', 'id', 'ht', 'c10m', 'c20m','c50m','c100m')
 vht <- merge(vht, veg.t, by='id')
 
@@ -86,13 +94,18 @@ percentiles.trees <- ddply(percentiles.trees, .(site), summarise,
                            tree45 = round(mean(tree45, na.rm=T)*100,2), 
                            tree60 = round(mean(tree60, na.rm=T)*100,2),
                            tree = round(mean(tree, na.rm=T)*100,2),
+                           # c10min = round(mean(c10min, na.rm=T),2),
+                           # c10min2 = round(mean(c10min2, na.rm=T),2),
+                           # c5m = round(mean(c5m, na.rm=T),2),
                            c10m = round(mean(c10m, na.rm=T),2),
                            c20m = round(mean(c20m, na.rm=T),2),
                            c50m = round(mean(c50m, na.rm=T),2),
                            c100m = round(mean(c100m, na.rm=T),2),
+                           ht05 = round(quantile(httree, 0.05, na.rm=T),2),
                            ht25 = round(quantile(httree, 0.25, na.rm=T),2),
                            ht50 = round(quantile(httree, 0.50,  na.rm=T),2),
                            ht75 = round(quantile(httree, 0.75,  na.rm=T),2),
+                           ht95 = round(quantile(httree, 0.95,  na.rm=T),2),
                            htmax = round(max(ht, na.rm=T),2)
 )
 if(length(mastervht)>1){
