@@ -1,0 +1,16 @@
+1a. Tree canopy (≥5 m) cover < 10%
+	2a. Tall shrub (≥2 m) cover < 10% ... grassland and low shrub
+	2b. Tall shrub (≥2 m) cover ≥ 10% ... tall shrub
+1a. Tree canopy  (≥5 m) cover ≥ 10%
+	3a. Tree canopy cover < 60% ... open woodland
+	3b. Tree canopy cover ≥ 60%
+		4a. Median Crown height < 15 m ... low forest
+		4b. Median Crown height ≥ 15 m
+			5a. Median Crown height < 30 m ... medium forest
+			5b. Median Crown height ≥ 30 m
+				6a. Emergent crowns absent, tallest trees per hectare < 45 m
+					7a. Canopy gaps (<15 m) < 10% ... mature high forest
+					7a. Canopy gaps (<15 m) ≥ 10% ... old-growth high forest
+				6b. Emergent crowns present, tallest trees per hectare ≥ 45 m
+					8a. Super Emergent crowns absent, tallest trees per hectare < 60 m ... high forest with emergents
+					8a. Super Emergent crowns present, tallest trees per hectare ≥ 60 m ... giant forest
