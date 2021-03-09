@@ -90,9 +90,9 @@ percentiles.trees <- ddply(percentiles.trees, .(site), summarise,
                            c20m = round(mean(c20m, na.rm=T),2),
                            c50m = round(mean(c50m, na.rm=T),2),
                            c100m = round(mean(c100m, na.rm=T),2),
-                           ht25 = round(quantile(ht, 0.25, na.rm=T),2),
-                           ht50 = round(quantile(ht, 0.50,  na.rm=T),2),
-                           ht75 = round(quantile(ht, 0.75,  na.rm=T),2),
+                           ht25 = round(quantile(httree, 0.25, na.rm=T),2),
+                           ht50 = round(quantile(httree, 0.50,  na.rm=T),2),
+                           ht75 = round(quantile(httree, 0.75,  na.rm=T),2),
                            htmax = round(max(ht, na.rm=T),2)
 )
 if(length(mastervht)>1){
