@@ -12,7 +12,7 @@ folderlist <- unique((stands$folder))
 
 crowndist <- data.frame(site = 'zzz',crown = 'zzz', area=0.1, ht50=0.1, htmax=0.1, width=0.1)
 
-for (i in 1:length(folderlist)){ #
+for (i in 1:length(folderlist)){ #i=11
 
 path <- paste0('output/',folderlist[i])
 
@@ -23,9 +23,9 @@ veg$id <- as.numeric(rownames(veg))
 veg.t <- st_drop_geometry(veg)
 
 veg <- st_transform(veg, crs = crs(canopy))
-veg.r <- fasterize(veg, raster(canopy), field = 'id')
-writeRaster(veg.r, 'output/veg.r.tif', overwrite=TRUE)
-veg.r <- rast('output/veg.r.tif')
+veg.r <- rast(fasterize(veg, raster(canopy), field = 'id'))
+# writeRaster(veg.r, 'output/veg.r.tif', overwrite=TRUE)
+# veg.r <- rast('output/veg.r.tif')
 #plot(veg.r)
 ##frequency of gaps and emergents ----
 

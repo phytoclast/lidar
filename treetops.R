@@ -25,8 +25,9 @@
   for (i in 1:length(folderlist)){
   
   path <- paste0('output/',folderlist[i])
-  
+  if(!file.exists(paste0(path,'/','crowns.tif'))){
   canopy <- raster(paste0(path,'/','canopy.tif'))
+  
   #find tops of trees
   ttops <- find_trees(canopy, lmf(f, hmin=5, shape='circular'))
   
@@ -44,5 +45,5 @@
   crowns.sf <- merge(crowns.sf, st_drop_geometry(ttops2), by.x='layer', by.y='treeID')
   st_write(crowns.sf,paste0(path,'/','crowns.shp'), driver="ESRI Shapefile", overwrite =TRUE, append = FALSE)
   }
-  
+  }
   

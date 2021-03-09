@@ -18,7 +18,7 @@ if(!hectarefreq){
   vhtsum <- data.frame(site = 'zzz', open=0.1, tshrub.cover=0.1, tree.cover=0.1, tree05=0.1, tree15=0.1, tree30=0.1, tree45=0.1, tree60=0.1, ht05=0.1, ht25=0.1,ht50=0.1,ht75=0.1, ht95=0.1, htmax=0.1,  gapAre=0.1, gapHa=0.1, emergAre=0.1, emergHa=0.1)
 }
 
-for (i in 1:length(folderlist)){i=19
+for (i in 1:length(folderlist)){#i=19
 
 path <- paste0('output/',folderlist[i])
 
@@ -63,9 +63,8 @@ if(!hectarefreq){
 }
 
 # canopy2 <-  crop(canopy, extent(veg))
-# plot(canopy2 >50)
-# plot(veg, add=T)
-canopy2 <- (veg.r *0 )+canopy
+# plot(canopy >50); plot(veg, add=T)
+#canopy2 <- (veg.r *0 )+canopy
 
 vht <- subset(vht, !ht >116)
 vht <- merge(vht, veg.t, by='id')

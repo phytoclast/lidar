@@ -1,5 +1,6 @@
 library(ggplot2)
 library(ggtern)
+library(plyr)
 vht.sum <- read.csv('output/vhtsum.csv')
 
 vht.sum$gap <- vht.sum$open +vht.sum$tshrub.cover +vht.sum$tree05/2
@@ -28,6 +29,7 @@ vht.sum$stdev <- (
     (vht.sum$magnitude - 45)^2*vht.sum$tree45+
     (vht.sum$magnitude - 60)^2*vht.sum$tree60
   )^0.5/(vht.sum$magnitude+30)*2
+
 detach(package:ggtern, unload=TRUE)
 detach(package:ggplot2, unload=TRUE)
 library(ggplot2)
@@ -83,45 +85,91 @@ vht <- readRDS('output/vht.RDS')
   n.westcoast <-  c('Humbolt Redwoods', 
                     'Olympic Rainforest', 
                     'Muir Redwoods')
+  a.smoky <- c("cove hardwoods","ramsey cove hardwood", "ramsey northern hardwoods" ,
+               "oak-chestnut","ramsey oak-chestnut", "yellow pine","heath bald", "ramsey heath bald")
+  
+  n.smoky <- c("cove hardwoods","cove hardwoods", "northern hardwoods" ,
+               "oak-chestnut","oak-chestnut", "yellow pine","heath bald", "heath bald"  )
+  
+  a.mich <- c('warren beech-maple', 'baker beech-maple','russ beech-maple-tulip',"dry-mesic forest","hartwick white pine-red pine","mio jack pine 19 y", "mio jack pine 39 y", "northern hardwoods cove", "northern mesic forest" )
+  n.mich <- c('southern mesic forest', 'southern mesic forest','southern mesic forest',"southern dry-mesic forest","white pine forest","jack pine barrens", "jack pine barrens", "northern mesic forest", "northern mesic forest" )
+  
   a.briar <- c('northern hardwoods sunslope','northern hardwoods cove')
+  n.briar <- c('northern hardwoods sunslope','northern hardwoods cove')
+  
+  a.fl <- c('florida bottomland','florida ravine','longleaf pine')
+  n.fl <- c('florida bottomland','florida ravine','longleaf pine')
+  
+  a.yunque <- c('yunque 2015 high','yunque 2015 low','yunque 2018 high','yunque 2018 low')
+  n.yunque <- c('cloud forest','rainforest','cloud forest post-Maria','rainforest post-Maria')
   
   
   a.pr <- c('yunque 2015 high','prdry upland','prdry lowland', 'prrainforest', 'selva lowland')
   n.pr <- c('3.dwarf cloud forest','4.tropical dry forest','4.tropical dry forest', '2.island tropical rainforest', '1.mainland tropical rainforest')
   
-mygroup <- 'westcoast'
+mygroup <- 'briar'
 a.group <- get(paste0('a.',mygroup))
 n.group <- get(paste0('n.',mygroup))
 
 vht.select <- subset(vht, site %in% 
                        c(a.group)
-)
-#
+            )
+
+vht.select$vegetation <- vht.select$site
 for(i in 1:length(a.group)){
-vht.select$site <-  gsub(a.group[i], n.group[i], vht.select$site)
+vht.select$vegetation <-  gsub(paste0('^',a.group[i],'$'), n.group[i], vht.select$vegetation)
 }
-ggplot(vht.select, aes(y=ht, color=site, fill=site))+
-  geom_density(alpha=0.1)+
-  scale_y_continuous(name= "Tree Height (m)", 
-                     breaks=c(0:22*5))+
-  labs(caption = 'Tree height distribution')
 
-ggplot(vht.select, aes(y=ht, x=site, color=site, fill=site))+
+vht.select.sum <- ddply(vht.select, "vegetation", summarise,
+                        mean=mean(ht),
+                        median=median(ht),
+                        sd =sd(ht),
+                        sdm =sd(ht)/(mean(ht)+1)*100 )
+
+
+profile <- 
+ggplot(vht.select, aes(y=ht, color=vegetation, fill=vegetation))+
+  geom_density(alpha=0.2, bw=5/4)+
+  scale_y_continuous(name= "Canopy Height (m)", 
+                     breaks=c(0:22*5))
+
+profile
+
+filename <- paste0('output/profile.',mygroup,'.png')
+png(filename=filename,width = 600, height =600, units = "px", pointsize = 3)
+par(mar = c(1,1,1,1))
+profile
+dev.off()
+
+
+boxplot <- 
+ggplot(vht.select, aes(y=ht, x=vegetation, color=vegetation, fill=vegetation))+
   geom_boxplot(alpha=0.1)+
-  scale_y_continuous(name= "Tree Height (m)", 
+  scale_y_continuous(name= "Canopy Height (m)", 
                      breaks=c(0:22*5))+  
-  scale_x_discrete(name= "Phase")+
-  labs(title = 'Tree height distribution')
+  scale_x_discrete(name= "Vegetation")+
+  labs(title = 'Canopy height distribution')
+boxplot
+filename <- paste0('output/boxplot.',mygroup,'.png')
+png(filename=filename,width = 600, height =600, units = "px", pointsize = 3)
+par(mar = c(1,1,1,1))
+boxplot
+dev.off()
 
-ggplot(vht.select, aes(x=ht, color=site))+
+
+
+cummulative <- 
+ggplot(vht.select, aes(x=ht, color=vegetation))+
   stat_ecdf()+
-  scale_x_continuous(name= "Tree Height (m)", 
+  scale_x_continuous(name= "Canopy Height (m)", 
                      breaks=c(0:22*5))+
   scale_y_reverse(name= "Cumulative Cover (%)", 
                      breaks=c(0:10/10),labels=c((10-(0:10))*10))+
-  labs(caption = 'Tree height distribution')+
-  coord_flip()
+    coord_flip()
   
-
-
-
+cummulative
+filename <- paste0('output/cummulative.',mygroup,'.png')
+png(filename=filename,width = 600, height =600, units = "px", pointsize = 3)
+par(mar = c(1,1,1,1))
+cummulative
+dev.off()
