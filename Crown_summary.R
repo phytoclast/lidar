@@ -7,12 +7,11 @@ library(fasterize)
 library(ggplot2)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 stands <- st_read('data/stands.shp')
+crowndist <- 0
 
 folderlist <- unique((stands$folder))
 
-crowndist <- data.frame(site = 'zzz',crown = 'zzz', area=0.1, ht50=0.1, htmax=0.1, width=0.1)
-
-for (i in 1:length(folderlist)){ #i=11
+for (i in 1:length(folderlist)){ #i=20
 
 path <- paste0('output/',folderlist[i])
 
@@ -23,9 +22,9 @@ veg$id <- as.numeric(rownames(veg))
 veg.t <- st_drop_geometry(veg)
 
 veg <- st_transform(veg, crs = crs(canopy))
-veg.r <- rast(fasterize(veg, raster(canopy), field = 'id'))
-# writeRaster(veg.r, 'output/veg.r.tif', overwrite=TRUE)
-# veg.r <- rast('output/veg.r.tif')
+veg.r <- fasterize(veg, raster(canopy), field = 'id')
+writeRaster(veg.r, 'output/veg.r.tif', overwrite=TRUE)
+veg.r <- rast('output/veg.r.tif')
 #plot(veg.r)
 ##frequency of gaps and emergents ----
 
@@ -47,8 +46,13 @@ percentiles.trees <- ddply(vht, .(site, crown), summarise,
                            htmax = max(ht)
 )
 percentiles.trees$width <-  (percentiles.trees$area/3.141592)^0.5*2
-crowndist <- rbind(crowndist, percentiles.trees)
-}; crowndist <- crowndist[-1,]
+
+if(length(crowndist)>1){
+  crowndist <- rbind(crowndist, percentiles.trees)
+}else{crowndist <- percentiles.trees}
+
+
+}
   write.csv(crowndist, 'output/crowndist.csv', row.names = F)
   
   
