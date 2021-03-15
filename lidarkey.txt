@@ -1,9 +1,21 @@
 1a. Tree canopy (≥5 m) cover < 10%
 	2a. Tall shrub (≥2 m) cover < 10% ... grassland and low shrub
-	2b. Tall shrub (≥2 m) cover ≥ 10% ... tall shrub
-1a. Tree canopy  (≥5 m) cover ≥ 10%
-	3a. Tree canopy cover < 60% ... open woodland
-	3b. Tree canopy cover ≥ 60%
+	2b. Tall shrub (≥2 m) cover ≥ 10%
+		3a. Tall shrub (≥2 m) cover < 75% ... open tall shrub
+		3b. Tall shrub (≥2 m) cover ≥ 75% ... closed tall shrub
+ 1a. Tree canopy  (≥5 m) cover ≥ 10%
+	3a. Tree canopy cover < 75% ... open woodland
+		4a. Tall shrub (≥2 m) cover < 25%
+			5a. Median Crown height < 15 m ... open low woodland
+			5b. Median Crown height ≥ 15 m
+				6a. Median Crown height < 30 m ... open medium woodland
+				6b. Median Crown height ≥ 30 m ... open high woodland
+		4b. Tall shrub (≥2 m) cover ≥ 25%
+			5a. Median Crown height < 15 m ... shrubby low woodland
+			5b. Median Crown height ≥ 15 m
+				6a. Median Crown height < 30 m ... shrubby medium woodland
+				6b. Median Crown height ≥ 30 m ... shrubby high woodland
+	3b. Tree canopy cover ≥ 75%
 		4a. Median Crown height < 15 m ... low forest
 		4b. Median Crown height ≥ 15 m
 			5a. Median Crown height < 30 m ... medium forest
