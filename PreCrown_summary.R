@@ -23,8 +23,8 @@ veg.t <- st_drop_geometry(veg)
 
 veg <- st_transform(veg, crs = crs(canopy))
 veg.r <- fasterize(veg, raster(canopy), field = 'id')
-writeRaster(veg.r, 'output/veg.r.tif', overwrite=TRUE)
-veg.r <- rast('output/veg.r.tif')
+writeRaster(veg.r, 'temp/veg.r.tif', overwrite=TRUE)
+veg.r <- rast('temp/veg.r.tif')
 #plot(veg.r)
 ##frequency of gaps and emergents ----
 

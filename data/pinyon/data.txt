@@ -1,0 +1,6 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AZ_VerdeKaibab_B1_2018_LAS_2019/metadata/USGS_LPC_AZ_VerdeKaibab_B1_2018_LAS_2019.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AZ_VerdeKaibab_B1_2018_LAS_2019/laz/USGS_LPC_AZ_VerdeKaibab_B1_2018_w1416n1556_LAS_2019.laz
+https://nationalmap.gov/3DEP/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_AZ_VerdeKaibab_B1_2018_LAS_2019/laz/USGS_LPC_AZ_VerdeKaibab_B1_2018_w1415n1556_LAS_2019.laz

@@ -1,0 +1,8 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_CA_LosAngeles_2016_LAS_2018/metadata/USGS_LPC_CA_LosAngeles_2016_LAS_2018.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_CA_LosAngeles_2016_LAS_2018/laz/USGS_LPC_CA_LosAngeles_2016_L4_6550_1894_LAS_2018.laz
+http://ned.usgs.gov/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_CA_LosAngeles_2016_LAS_2018/laz/USGS_LPC_CA_LosAngeles_2016_L4_6545_1889_LAS_2018.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_CA_LosAngeles_2016_LAS_2018/laz/USGS_LPC_CA_LosAngeles_2016_L4_6545_1894_LAS_2018.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_CA_LosAngeles_2016_LAS_2018/laz/USGS_LPC_CA_LosAngeles_2016_L4_6550_1889_LAS_2018.laz

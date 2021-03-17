@@ -9,7 +9,7 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'prdry'
+folder = 'scal'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = FALSE #TRUE if data source is of is irregularly shaped
