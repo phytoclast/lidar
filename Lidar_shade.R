@@ -12,7 +12,7 @@
   folderlist <- unique((stands$folder))
   
  
-  for (i in 1:length(folderlist)){
+  for (i in 1:length(folderlist)){#i=33
   
   path <- paste0('output/',folderlist[i])
  if(!file.exists(paste0(path,'/','gshade.tif'))){

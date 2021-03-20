@@ -1,8 +1,8 @@
 1a. Tree canopy (≥5 m) cover < 10%
-	2a. Tall shrub (≥2 m) cover < 10% ... grassland and low shrub
+	2a. Tall shrub (≥2 m) cover < 10% ... open grassland and low shrub
 	2b. Tall shrub (≥2 m) cover ≥ 10%
-		3a. Tall shrub (≥2 m) cover < 75% ... open tall shrub
-		3b. Tall shrub (≥2 m) cover ≥ 75% ... closed tall shrub
+		3a. Tall shrub (≥2 m) cover < 25% ... open tall shrubland
+		3b. Tall shrub (≥2 m) cover ≥ 25% ... dense tall shrubland
  1a. Tree canopy  (≥5 m) cover ≥ 10%
 	4a. Tree canopy cover < 75% ... open woodland
 		5a. Tall shrub (≥2 m) cover < 25%

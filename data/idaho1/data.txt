@@ -1,0 +1,8 @@
+http://www.asprs.org/Committee-General/LASer-LAS-File-Format-Exchange-Activities.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/NED/LPC/projects/ID_Powell_2011/metadata/ID_Powell_2011.zip
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/ID_Powell_2011/laz/ID_Powell_2011_000749.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/NED/LPC/projects/ID_Powell_2011/las/tiled/ID_Powell_2011_000749.zip
+http://ned.usgs.gov/
+http://nationalmap.gov/viewer.html
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/ID_Powell_2011/laz/ID_Powell_2011_000793.laz
+ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/NED/LPC/projects/ID_Powell_2011/las/tiled/ID_Powell_2011_000793.zip

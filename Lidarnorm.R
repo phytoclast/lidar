@@ -9,10 +9,10 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'scal'
+folder = 'humboldt2'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
-notsquare = FALSE #TRUE if data source is of is irregularly shaped
+notsquare = TRUE #TRUE if data source is of is irregularly shaped
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
 path.new <- paste0('output/', folder)
@@ -94,7 +94,7 @@ if(!troubled){
 
 if(is.na(crs(canopy))){crs(canopy) <- crs.old}
 canopy <- canopy * zfactor
-canopy[canopy > 115 | canopy < -1] <- NA
+canopy[canopy > 116 | canopy < -1] <- NA
 if(!ishmeter){canopy <- projectRaster(canopy, crs = CRS(crs.new), method = 'bilinear', res = res)}
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, options="COMPRESS=LZW")
 plot(canopy)
