@@ -2,14 +2,17 @@ library(ggplot2)
 library(ggtern)
 library(plyr)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-vht.sum <- read.csv('output/vhtsum.csv')
+vht.sum <- read.csv('output/combsum.csv')
 
 vht.sum$gap <- vht.sum$open +vht.sum$tshrub.cover +vht.sum$tree05/2
 vht.sum$canopy <- vht.sum$tree15 +vht.sum$tree30/2+vht.sum$tree05/2
 vht.sum$emergent <- vht.sum$tree45 +vht.sum$tree60+vht.sum$tree30/2
+vht.sum$open <- vht.sum$strat00 
+vht.sum$shrub <- vht.sum$strat02
+vht.sum$tree <- vht.sum$strattree 
 
 
-ggtern(data=vht.sum,aes(x=open,z=tshrub.cover, y=tree.cover)) +
+ggtern(data=vht.sum,aes(x=open,z=shrub, y=tree)) +
   geom_point()+
   geom_text(aes(label=site), size=2)
 
