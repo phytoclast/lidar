@@ -9,10 +9,11 @@ library(dplyr)
 library(stringr)
 library(terra)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'humboldt2'
+folder = 'belize'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
-canopyonly = FALSE
-notsquare = TRUE #TRUE if data source is of is irregularly shaped
+canopyonly = TRUE
+notsquare = FALSE #TRUE if data source is of is irregularly shaped
+single = FALSE #TRUE if consists of a single tile
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
 path.new <- paste0('output/', folder)
@@ -57,7 +58,9 @@ hfactor <- ifelse(!ishmeter, 0.3048, 1)
 
 #generate ground and surface rasters from LAS dataset ----
 if(!canopyonly){
-las.collection <- readLAScatalog(path, filter="-drop_class 7 18")
+  if(single){
+  las.collection <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")}else{
+las.collection <- readLAScatalog(path, filter="-drop_class 7 18")}
 if(notsquare){
   ground.original <- grid_terrain(las.collection, res = res/hfactor, algorithm = knnidw(k = 10, p = 2, rmax = 50/hfactor))
 }else{
@@ -81,7 +84,10 @@ for (i in 1:length(fl)){
   writeLAS(las.norm, paste0(path.norm,'/',file.new))
 }
 }
-las.norm <- readLAScatalog(path.norm)
+if(single){
+  las.norm <- readLAS(paste0(path.norm,"/",file.original))}else{
+    las.norm <- readLAScatalog(path.norm)}
+
 timeA <- Sys.time()
 #Create canopy model depending on whether data source has problems ----
 if(!troubled){
