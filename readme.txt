@@ -1,6 +1,6 @@
 General sequence of scripts
 1. Download.R #Downloads several lidar tiles by supplying a list of file urls from the USGS download site.
-2. Lidarnorm.R #Renders a bare earth DEM, then uses this to normalize point clouds, then renders a canopy height model.
+2. Lidarnorm_wkt.R #Renders a bare earth DEM, then uses this to normalize point clouds, then renders a canopy height model. R Lidarnorm.R is old version not using proper projection string.
 3. Make_Crowns.R #Delineates crowns for later analysis.
 4. PreCrown_summary.R #Summarizes each canopy height model by crown.
 5. Crown_summary.R #Summarizes each stand as defined by a shapefile in terms of each crown.
