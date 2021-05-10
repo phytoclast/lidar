@@ -8,8 +8,10 @@ library(viridis)
 library(dplyr)
 library(stringr)
 library(terra)
+library(sf)
+
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'sleepy'
+folder = 'dsprf3'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = FALSE #TRUE if data source is of is irregularly shaped
@@ -39,6 +41,8 @@ file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
 
 crs.old <- as.character(Las@proj4string)
+
+
 if(is.na(crs.old)){crs.old <- override.epsg}
 crs.new <- str_replace(crs.old, '\\+units\\=ft','\\+units\\=m')
 crs.new <- str_replace(crs.new, '\\+vunits\\=ft','\\+vunits\\=m')
@@ -69,8 +73,8 @@ if(notsquare){
 if(is.na(crs(ground.original))){crs(ground.original) <- crs.old}
 ground <- ground.original * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
-if(!ishmeter){ground <- projectRaster(ground, crs = CRS(crs.new), method = 'bilinear', res = res)}
-writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, options="COMPRESS=LZW")
+
+
 plot(ground)
 
 #normalize height, remove outliers, generate canopy height model ----
@@ -101,14 +105,60 @@ if(!troubled){
 if(is.na(crs(canopy))){crs(canopy) <- crs.old}
 canopy <- canopy * zfactor
 canopy[canopy > 116 | canopy < -1] <- NA
-if(!ishmeter){canopy <- projectRaster(canopy, crs = CRS(crs.new), method = 'bilinear', res = res)}
-writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, options="COMPRESS=LZW")
-plot(canopy)
+
 Sys.time()-timeA
 
+#reproject raster to metric units centered to middle of raster ----
+
+xcoord =(extent(ground)[1] + extent(ground)[2])/2
+ycoord =(extent(ground)[3] + extent(ground)[4])/2
+
+pt = data.frame(
+  xcoord,ycoord
+)
+pt <- sf::st_as_sf(as.data.frame(pt), coords = c("xcoord","ycoord"), crs=st_crs(ground))
+pt.trans <- (st_transform(pt,crs=st_crs('EPSG:4326')))
+pt.trans <- st_coordinates(pt.trans)
+pt.trans[,2]
 
 
+wkt.new <- paste0('PROJCS["Centered Equal Area",
+    GEOGCS["WGS 84",
+        DATUM["WGS_1984",
+            SPHEROID["WGS 84",6378137,298.257223563]],
+        PRIMEM["Greenwich",0],
+        UNIT["Degree",0.0174532925199433]],
+    PROJECTION["Lambert_Azimuthal_Equal_Area"],
+    PARAMETER["latitude_of_center",',pt.trans[,2],'],
+    PARAMETER["longitude_of_center",',pt.trans[,1],'],
+    PARAMETER["false_easting",0],
+    PARAMETER["false_northing",0],
+    UNIT["metre",1]]')
+
+ex <- data.frame(rname=c('ul','ll','ur','lr'),
+                 xcoord=c(extent(ground)[1],extent(ground)[1],extent(ground)[2],extent(ground)[2]),
+                 ycoord=c(extent(ground)[3],extent(ground)[4],extent(ground)[3],extent(ground)[4])
+)
+ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(ground))
+ex.trans <- (st_transform(ex,crs=wkt.new))
+ex.trans <- as.data.frame(st_coordinates(ex.trans))
+xmn= min(ex.trans$X)
+xmx= max(ex.trans$X)
+ymn= min(ex.trans$Y)
+ymx= max(ex.trans$Y)
+
+y.rast <- rast(xmin=xmn, xmax=xmx, 
+               ymin=ymn, ymax=ymx, crs=wkt.new, res=res)
+
+writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, options="COMPRESS=LZW")
+writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, options="COMPRESS=LZW")
+ground <- rast(paste0(path.new,'/','ground.tif')) 
 canopy <- rast(paste0(path.new,'/','canopy.tif'))
+ground<- project(ground, y.rast, method = 'bilinear')
+canopy<- project(canopy, y.rast, method = 'bilinear')
+writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))
+writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))
+
 plot(canopy, breaks = c(0,2, 5,15,30,45,60, 115), col=c('white', 'pink', 'yellowgreen', 'green', 'darkgreen', 'cyan', 'blue'), maxcell=100000)
 
 df <- as.data.frame(canopy, xy=TRUE)
