@@ -22,7 +22,7 @@
   plot(heights, ws, type = "l",  ylim = c(0,30))
   
  
-  for (i in 1:length(folderlist)){
+  for (i in 1:length(folderlist)){#i=35
   
   path <- paste0('output/',folderlist[i])
   if(!file.exists(paste0(path,'/','crowns.tif'))){
@@ -35,12 +35,12 @@
   st_write(ttops2,paste0(path,'/','ttps.shp'), driver="ESRI Shapefile", overwrite =TRUE, append = FALSE)
   #delineate crown boundaries
   canopy.trees <- dalponte2016(canopy, ttops, th_tree = 5, th_seed = 0.45, th_cr = 0.55, max_cr = 25, ID = "treeID")
-  crowns <- canopy.trees()
-  plot(crowns, col = pastel.colors(1000))
+  crowns <- canopy.trees(); crs(crowns)<- crs(canopy)
+  plot(crowns, col = pastel.colors(1000)) 
   writeRaster(crowns, filename= paste0(path,'/','crowns.tif'),
               overwrite=TRUE, wopt=list(gdal=c("COMPRESS=LZW")))
   v <- terra::as.polygons(rast(crowns))
-  crowns.sf <- st_as_sf(as.data.frame(v, geom=TRUE), wkt="geometry", crs=crs(canopy))
+  crowns.sf <- st_as_sf(as.data.frame(v, geom='WKT'), wkt="geometry", crs=wkt(canopy))
   
   crowns.sf <- merge(crowns.sf, st_drop_geometry(ttops2), by.x='layer', by.y='treeID')
   st_write(crowns.sf,paste0(path,'/','crowns.shp'), driver="ESRI Shapefile", overwrite =TRUE, append = FALSE)

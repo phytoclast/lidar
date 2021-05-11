@@ -11,7 +11,7 @@ crowndist <- 0
 
 folderlist <- unique((stands$folder))
 
-for (i in 1:length(folderlist)){ #i=20
+for (i in 1:length(folderlist)){ #i=19
 
 path <- paste0('output/',folderlist[i])
 
