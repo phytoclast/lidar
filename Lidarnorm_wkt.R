@@ -11,14 +11,17 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'dsprf3'
+folder = 'test2'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = FALSE #TRUE if data source is of is irregularly shaped
-single = FALSE #TRUE if consists of a single tile
+single = TRUE #TRUE if consists of a single tile
+projection.override <- TRUE #TRUE if need to override poorly formatted source CRS
+
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
 path.new <- paste0('output/', folder)
+
 override.epsg <- read.delim( paste0('data/', folder,'/epsg.txt'))
 override.epsg <- CRS(paste0('+init=EPSG:',override.epsg[1,1]))
 
@@ -152,10 +155,13 @@ y.rast <- rast(xmin=xmn, xmax=xmx,
 
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, options="COMPRESS=LZW")
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, options="COMPRESS=LZW")
-ground <- rast(paste0(path.new,'/','ground.tif')) 
-canopy <- rast(paste0(path.new,'/','canopy.tif'))
-ground<- project(ground, y.rast, method = 'bilinear')
-canopy<- project(canopy, y.rast, method = 'bilinear')
+ground2 <- rast(paste0(path.new,'/','ground.tif')) 
+canopy2 <- rast(paste0(path.new,'/','canopy.tif'))
+if(projection.override){
+crs(ground2) <- wkt(override.epsg)
+crs(canopy2) <- wkt(override.epsg)}
+ground<- project(ground2, y.rast, method = 'bilinear')
+canopy<- project(canopy2, y.rast, method = 'bilinear')
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))
 
