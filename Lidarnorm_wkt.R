@@ -11,12 +11,13 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'test2'
+folder = 'nfox'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = FALSE #TRUE if data source is of is irregularly shaped
-single = TRUE #TRUE if consists of a single tile
-projection.override <- TRUE #TRUE if need to override poorly formatted source CRS
+single = FALSE #TRUE if consists of a single tile
+projection.override <- FALSE #TRUE if need to override poorly formatted source CRS
+normalizeerror = TRUE #TRUE normalization step fails. This generates surface raster first instead of modifying Las data, then subtracts ground
 
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
@@ -90,6 +91,7 @@ for (i in 1:length(fl)){
   file.new <- paste0(stringr::str_split_fixed(file.original,'\\.',2)[1],'.laz')
   writeLAS(las.norm, paste0(path.norm,'/',file.new))
 }
+
 }
 if(single){
   las.norm <- readLAS(paste0(path.norm,"/",file.original))}else{
@@ -97,6 +99,8 @@ if(single){
 
 timeA <- Sys.time()
 #Create canopy model depending on whether data source has problems ----
+
+
 if(!troubled){
   canopy <- grid_canopy(las.norm, res = res/hfactor, algorithm = 
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 3)/hfactor))
@@ -162,10 +166,18 @@ crs(ground2) <- wkt(override.epsg)
 crs(canopy2) <- wkt(override.epsg)}
 ground<- project(ground2, y.rast, method = 'bilinear')
 canopy<- project(canopy2, y.rast, method = 'bilinear')
+if(normalizeerror){
+  surface <- grid_canopy(las.collection, algorithm = dsmtin(max_edge = 0), res = res/hfactor)
+  surface <- surface * zfactor
+  writeRaster(surface, paste0(path.new,'/','surface.tif'), overwrite=T, options="COMPRESS=LZW")
+  surface2 <- rast(paste0(path.new,'/','surface.tif')) 
+  surface<- project(surface2, y.rast, method = 'bilinear')
+  canopy <- surface - ground 
+}
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))
 
 plot(canopy, breaks = c(0,2, 5,15,30,45,60, 115), col=c('white', 'pink', 'yellowgreen', 'green', 'darkgreen', 'cyan', 'blue'), maxcell=100000)
 
 df <- as.data.frame(canopy, xy=TRUE)
-hist(df$canopy)
+hist(df[,3])

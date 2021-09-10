@@ -1,0 +1,4 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_Charlevoix_Islands_2016_LAS_2019/laz/USGS_LPC_MI_Charlevoix_Islands_2016_323786_LAS_2019.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_Charlevoix_Islands_2016_LAS_2019/laz/USGS_LPC_MI_Charlevoix_Islands_2016_323788_LAS_2019.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_Charlevoix_Islands_2016_LAS_2019/laz/USGS_LPC_MI_Charlevoix_Islands_2016_326786_LAS_2019.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_Charlevoix_Islands_2016_LAS_2019/laz/USGS_LPC_MI_Charlevoix_Islands_2016_326788_LAS_2019.laz
