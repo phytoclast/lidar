@@ -11,7 +11,7 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'nfox'
+folder = 'katahdin'
 troubled = FALSE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = FALSE #TRUE if data source is of is irregularly shaped
@@ -43,26 +43,38 @@ fl <- list.files(path)
 #determine projection and units ----
 file.original <- fl[1]
 Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
+st_crs(Las)
 
-crs.old <- as.character(Las@proj4string)
+
+crs.old <- st_crs(Las)[[2]]
+as.data.frame(crs.old)
+grepl('VERT_CS\\[',crs.old)
+grepl('UNIT.*foot.*VERT_CS.',crs.old)
+grepl('VERT_CS.*UNIT.*foot',crs.old)
+x=stringr::str_replace(crs.old, '\n',";")
+grepl('vertcrs.*unit.*us survey foot',tolower(crs.old))
+grepl('unit.*us survey foot.*vertcrs',tolower(crs.old))
+str_extract(crs.old,'VERTCRS.*')
+
+x = as.data.frame(str_split(crs.old,'VERTCRS'))
+x = str_extract(x[2,], 'LENGTHUNIT\\[\".*\"')
+x
+if(is.na(crs.old)[1]){crs.old <- override.epsg}
+isvfeet <- grepl('vertcrs.*unit.*"foot"',tolower(crs.old)) | !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"foot"',tolower(crs.old))
+isvusfeet <- grepl('vertcrs.*unit.*"us survey foot"',tolower(crs.old))| !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"us survey foot"',tolower(crs.old))
+
+ishfeet <- grepl('unit.*"foot".*vertcrs',tolower(crs.old)) | !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"foot"',tolower(crs.old))
+ishusfeet <- grepl('unit.*"us survey foot".*vertcrs',tolower(crs.old))| !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"us survey foot"',tolower(crs.old))
 
 
-if(is.na(crs.old)){crs.old <- override.epsg}
-crs.new <- str_replace(crs.old, '\\+units\\=ft','\\+units\\=m')
-crs.new <- str_replace(crs.new, '\\+vunits\\=ft','\\+vunits\\=m')
-crs.new <- str_replace(crs.new, '\\+units\\=us-ft','\\+units\\=m')
-crs.new <- str_replace(crs.new, '\\+vunits\\=us-ft','\\+vunits\\=m')
-isvfeet <- grepl('+vunits=ft', crs.old) | (grepl('+units=ft', crs.old) & !grepl('+vunits', crs.old))
-isvusfeet <- grepl('+vunits=us-ft', crs.old) | (grepl('+units=us-ft', crs.old) & !grepl('+vunits', crs.old))
-zfactor <- ifelse(isvfeet, 0.3048, ifelse(isvusfeet, 0.3048, 1))
-ishmeter <- grepl('+units=m', crs.old)
+zfactor <- ifelse(isvfeet, 0.3048, ifelse(isvusfeet, 0.304800609601219, 1))
+hfactor <- ifelse(ishfeet, 0.3048, ifelse(ishusfeet, 0.304800609601219, 1))
 
 
 # establish resolution----
 
 res <- 1
 subcircle <- res
-hfactor <- ifelse(!ishmeter, 0.3048, 1)
 
 #generate ground and surface rasters from LAS dataset ----
 if(!canopyonly){
@@ -70,9 +82,9 @@ if(!canopyonly){
   las.collection <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")}else{
 las.collection <- readLAScatalog(path, filter="-drop_class 7 18")}
 if(notsquare){
-  ground.original <- grid_terrain(las.collection, res = res/hfactor, algorithm = knnidw(k = 10, p = 2, rmax = 50/hfactor))
+  ground.original <- rasterize_terrain(las.collection, res = res/hfactor, algorithm = knnidw(k = 10, p = 2, rmax = 50/hfactor))
 }else{
-  ground.original <- grid_terrain(las.collection, res = res/hfactor, algorithm = tin())
+  ground.original <- rasterize_terrain(las.collection, res = res/hfactor, algorithm = tin())
 }
 if(is.na(crs(ground.original))){crs(ground.original) <- crs.old}
 ground <- ground.original * zfactor
@@ -102,10 +114,10 @@ timeA <- Sys.time()
 
 
 if(!troubled){
-  canopy <- grid_canopy(las.norm, res = res/hfactor, algorithm = 
+  canopy <- rasterize_canopy(las.norm, res = res/hfactor, algorithm = 
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 3)/hfactor))
 }else{
-  canopy <- grid_canopy(las.norm, res = res/hfactor, algorithm = 
+  canopy <- rasterize_canopy(las.norm, res = res/hfactor, algorithm = 
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 5)/hfactor, subcircle = subcircle/hfactor*1))
 }
 
@@ -167,7 +179,7 @@ crs(canopy2) <- wkt(override.epsg)}
 ground<- project(ground2, y.rast, method = 'bilinear')
 canopy<- project(canopy2, y.rast, method = 'bilinear')
 if(normalizeerror){
-  surface <- grid_canopy(las.collection, algorithm = dsmtin(max_edge = 0), res = res/hfactor)
+  surface <- rasterize_canopy(las.collection, algorithm = dsmtin(max_edge = 0), res = res/hfactor)
   surface <- surface * zfactor
   writeRaster(surface, paste0(path.new,'/','surface.tif'), overwrite=T, options="COMPRESS=LZW")
   surface2 <- rast(paste0(path.new,'/','surface.tif')) 
