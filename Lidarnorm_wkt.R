@@ -11,20 +11,22 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'katahdin'
-troubled = FALSE  #TRUE if data source is of sparse poor quality
+folder = 'gollwoods'
+troubled = TRUE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
-notsquare = FALSE #TRUE if data source is of is irregularly shaped
+notsquare = TRUE #TRUE if data source is of is irregularly shaped
 single = FALSE #TRUE if consists of a single tile
 projection.override <- FALSE #TRUE if need to override poorly formatted source CRS
-normalizeerror = TRUE #TRUE normalization step fails. This generates surface raster first instead of modifying Las data, then subtracts ground
+normalizeerror = FALSE #TRUE normalization step fails. This generates surface raster first instead of modifying Las data, then subtracts ground
 
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
 path.new <- paste0('output/', folder)
 
+if(file.exists(paste0('data/', folder,'/epsg.txt'))){
 override.epsg <- read.delim( paste0('data/', folder,'/epsg.txt'))
 override.epsg <- CRS(paste0('+init=EPSG:',override.epsg[1,1]))
+}
 
 if(!dir.exists(path.new)){dir.create(path.new)}
 if(!dir.exists(path.norm)){dir.create(path.norm)}
@@ -114,10 +116,10 @@ timeA <- Sys.time()
 
 
 if(!troubled){
-  canopy <- rasterize_canopy(las.norm, res = res/hfactor, algorithm = 
+  canopy <- rasterize_canopy(las.norm, res = res/hfactor, algorithm =
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 3)/hfactor))
 }else{
-  canopy <- rasterize_canopy(las.norm, res = res/hfactor, algorithm = 
+  canopy <- rasterize_canopy(las.norm, res = res/hfactor, algorithm =
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 5)/hfactor, subcircle = subcircle/hfactor*1))
 }
 
@@ -129,8 +131,8 @@ Sys.time()-timeA
 
 #reproject raster to metric units centered to middle of raster ----
 
-xcoord =(extent(ground)[1] + extent(ground)[2])/2
-ycoord =(extent(ground)[3] + extent(ground)[4])/2
+xcoord =(ext(ground)[1] + ext(ground)[2])/2
+ycoord =(ext(ground)[3] + ext(ground)[4])/2
 
 pt = data.frame(
   xcoord,ycoord
@@ -155,8 +157,8 @@ wkt.new <- paste0('PROJCS["Centered Equal Area",
     UNIT["metre",1]]')
 
 ex <- data.frame(rname=c('ul','ll','ur','lr'),
-                 xcoord=c(extent(ground)[1],extent(ground)[1],extent(ground)[2],extent(ground)[2]),
-                 ycoord=c(extent(ground)[3],extent(ground)[4],extent(ground)[3],extent(ground)[4])
+                 xcoord=c(ext(ground)[1],ext(ground)[1],ext(ground)[2],ext(ground)[2]),
+                 ycoord=c(ext(ground)[3],ext(ground)[4],ext(ground)[3],ext(ground)[4])
 )
 ex <- sf::st_as_sf(as.data.frame(ex), coords = c("xcoord","ycoord"), crs=st_crs(ground))
 ex.trans <- (st_transform(ex,crs=wkt.new))
@@ -166,12 +168,12 @@ xmx= max(ex.trans$X)
 ymn= min(ex.trans$Y)
 ymx= max(ex.trans$Y)
 
-y.rast <- rast(xmin=xmn, xmax=xmx, 
+y.rast <- rast(xmin=xmn, xmax=xmx,
                ymin=ymn, ymax=ymx, crs=wkt.new, res=res)
 
-writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, options="COMPRESS=LZW")
-writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, options="COMPRESS=LZW")
-ground2 <- rast(paste0(path.new,'/','ground.tif')) 
+writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
+writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
+ground2 <- rast(paste0(path.new,'/','ground.tif'))
 canopy2 <- rast(paste0(path.new,'/','canopy.tif'))
 if(projection.override){
 crs(ground2) <- wkt(override.epsg)
@@ -182,9 +184,9 @@ if(normalizeerror){
   surface <- rasterize_canopy(las.collection, algorithm = dsmtin(max_edge = 0), res = res/hfactor)
   surface <- surface * zfactor
   writeRaster(surface, paste0(path.new,'/','surface.tif'), overwrite=T, options="COMPRESS=LZW")
-  surface2 <- rast(paste0(path.new,'/','surface.tif')) 
+  surface2 <- rast(paste0(path.new,'/','surface.tif'))
   surface<- project(surface2, y.rast, method = 'bilinear')
-  canopy <- surface - ground 
+  canopy <- surface - ground
 }
 writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T, gdal=c("COMPRESS=LZW"))

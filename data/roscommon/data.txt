@@ -1,0 +1,16 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_680312_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_680315_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_680317_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_680320_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_682312_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_682315_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_682317_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_682320_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_685312_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_685315_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_685317_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_685320_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_677312_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_677315_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_677317_LAS_2018.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/USGS_LPC_MI_16Co_Roscommon_2015_LAS_2018/laz/USGS_LPC_MI_16Co_Roscommon_2015_677320_LAS_2018.laz

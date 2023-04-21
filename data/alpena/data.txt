@@ -1,0 +1,13 @@
+https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n46w084/USGS_13_n46w084_20190627.tif
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_912662.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_912665.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_912667.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_915662.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_915665.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_915667.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_917662.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_917665.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_917667.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_920662.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_920665.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Alpena_Montmorency_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_920667.laz
