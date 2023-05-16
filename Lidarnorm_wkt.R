@@ -11,12 +11,12 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'gollwoods'
+folder = 'udell'
 troubled = TRUE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = TRUE #TRUE if data source is of is irregularly shaped
 single = FALSE #TRUE if consists of a single tile
-projection.override <- FALSE #TRUE if need to override poorly formatted source CRS
+projection.override <- TRUE #TRUE if need to override poorly formatted source CRS
 normalizeerror = FALSE #TRUE normalization step fails. This generates surface raster first instead of modifying Las data, then subtracts ground
 
 path <- paste0('data/', folder,'/laz')
@@ -48,6 +48,8 @@ Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
 st_crs(Las)
 
 
+
+
 crs.old <- st_crs(Las)[[2]]
 as.data.frame(crs.old)
 grepl('VERT_CS\\[',crs.old)
@@ -62,11 +64,11 @@ x = as.data.frame(str_split(crs.old,'VERTCRS'))
 x = str_extract(x[2,], 'LENGTHUNIT\\[\".*\"')
 x
 if(is.na(crs.old)[1]){crs.old <- override.epsg}
-isvfeet <- grepl('vertcrs.*unit.*"foot"',tolower(crs.old)) | !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"foot"',tolower(crs.old))
-isvusfeet <- grepl('vertcrs.*unit.*"us survey foot"',tolower(crs.old))| !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"us survey foot"',tolower(crs.old))
+isvfeet <- grepl('vertcrs.*unit.*"foot"',tolower(wkt(crs.old))) | !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"foot"',tolower(wkt(crs.old)))
+isvusfeet <- grepl('vertcrs.*unit.*"us survey foot"',tolower(wkt(crs.old)))| !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"us survey foot"',tolower(wkt(crs.old)))
 
-ishfeet <- grepl('unit.*"foot".*vertcrs',tolower(crs.old)) | !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"foot"',tolower(crs.old))
-ishusfeet <- grepl('unit.*"us survey foot".*vertcrs',tolower(crs.old))| !grepl('vertcrs',tolower(crs.old)) & grepl('unit.*"us survey foot"',tolower(crs.old))
+ishfeet <- grepl('unit.*"foot".*vertcrs',tolower(wkt(crs.old))) | !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"foot"',tolower(wkt(crs.old)))
+ishusfeet <- grepl('unit.*"us survey foot".*vertcrs',tolower(wkt(crs.old)))| !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"us survey foot"',tolower(wkt(crs.old)))
 
 
 zfactor <- ifelse(isvfeet, 0.3048, ifelse(isvusfeet, 0.304800609601219, 1))
@@ -88,7 +90,7 @@ if(notsquare){
 }else{
   ground.original <- rasterize_terrain(las.collection, res = res/hfactor, algorithm = tin())
 }
-if(is.na(crs(ground.original))){crs(ground.original) <- crs.old}
+if(is.na(crs(ground.original))|crs(ground.original) %in% ""){crs(ground.original) <- crs.old}
 ground <- ground.original * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 
