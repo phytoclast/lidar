@@ -1,0 +1,2 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_13County_2015_C16/MI_AlleganCo_2015/LAZ/USGS_LPC_MI_13County_2015_C16_666379.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_13County_2015_C16/MI_AlleganCo_2015/LAZ/USGS_LPC_MI_13County_2015_C16_668379.laz

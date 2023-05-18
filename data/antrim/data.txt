@@ -1,0 +1,3 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Antrim_Otsego_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_482600.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Antrim_Otsego_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_485597.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_FEMA_2019_C19/MI_FEMA_Antrim_Otsego_2019/LAZ/USGS_LPC_MI_FEMA_2019_C19_485600.laz

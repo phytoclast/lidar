@@ -1,0 +1,4 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_13County_2015_C16/MI_13Co_BerrienCO_2015/LAZ/USGS_LPC_MI_13County_2015_C16_601129.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_13County_2015_C16/MI_13Co_BerrienCO_2015/LAZ/USGS_LPC_MI_13County_2015_C16_601131.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_13County_2015_C16/MI_13Co_BerrienCO_2015/LAZ/USGS_LPC_MI_13County_2015_C16_603129.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_13County_2015_C16/MI_13Co_BerrienCO_2015/LAZ/USGS_LPC_MI_13County_2015_C16_603131.laz

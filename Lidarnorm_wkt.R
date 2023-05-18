@@ -11,12 +11,12 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'udell'
+folder = 'allegan2'
 troubled = TRUE  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = TRUE #TRUE if data source is of is irregularly shaped
 single = FALSE #TRUE if consists of a single tile
-projection.override <- TRUE #TRUE if need to override poorly formatted source CRS
+projection.override <- FALSE #TRUE if need to override poorly formatted source CRS
 normalizeerror = FALSE #TRUE normalization step fails. This generates surface raster first instead of modifying Las data, then subtracts ground
 
 path <- paste0('data/', folder,'/laz')
@@ -64,15 +64,15 @@ x = as.data.frame(str_split(crs.old,'VERTCRS'))
 x = str_extract(x[2,], 'LENGTHUNIT\\[\".*\"')
 x
 if(is.na(crs.old)[1]){crs.old <- override.epsg}
-isvfeet <- grepl('vertcrs.*unit.*"foot"',tolower(wkt(crs.old))) | !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"foot"',tolower(wkt(crs.old)))
-isvusfeet <- grepl('vertcrs.*unit.*"us survey foot"',tolower(wkt(crs.old)))| !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"us survey foot"',tolower(wkt(crs.old)))
+isvfeet <- grepl('vertcrs.*unit.*"foot"',tolower(crs.old)) | !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"foot"',tolower(st_crs(crs.old)))
+isvusfeet <- grepl('vertcrs.*unit.*"us survey foot"',tolower(st_crs(crs.old)))| !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"us survey foot"',tolower(st_crs(crs.old)))
 
-ishfeet <- grepl('unit.*"foot".*vertcrs',tolower(wkt(crs.old))) | !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"foot"',tolower(wkt(crs.old)))
-ishusfeet <- grepl('unit.*"us survey foot".*vertcrs',tolower(wkt(crs.old)))| !grepl('vertcrs',tolower(wkt(crs.old))) & grepl('unit.*"us survey foot"',tolower(wkt(crs.old)))
+ishfeet <- grepl('unit.*"foot".*vertcrs',tolower(st_crs(crs.old))) | !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"foot"',tolower(st_crs(crs.old)))
+ishusfeet <- grepl('unit.*"us survey foot".*vertcrs',tolower(st_crs(crs.old)))| !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"us survey foot"',tolower(crs.old))
 
 
-zfactor <- ifelse(isvfeet, 0.3048, ifelse(isvusfeet, 0.304800609601219, 1))
-hfactor <- ifelse(ishfeet, 0.3048, ifelse(ishusfeet, 0.304800609601219, 1))
+zfactor <- ifelse(isvfeet[length(st_crs(crs.old))], 0.3048, ifelse(isvusfeet[length(st_crs(crs.old))], 0.304800609601219, 1))
+hfactor <- ifelse(ishfeet[length(st_crs(crs.old))], 0.3048, ifelse(ishusfeet[length(st_crs(crs.old))], 0.304800609601219, 1))
 
 
 # establish resolution----
@@ -125,7 +125,7 @@ if(!troubled){
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 5)/hfactor, subcircle = subcircle/hfactor*1))
 }
 
-if(is.na(crs(canopy))){crs(canopy) <- crs.old}
+if(is.na(crs(canopy))|crs(canopy) %in% ""){crs(canopy) <- crs.old}
 canopy <- canopy * zfactor
 canopy[canopy > 116 | canopy < -1] <- NA
 
@@ -173,7 +173,7 @@ ymx= max(ex.trans$Y)
 y.rast <- rast(xmin=xmn, xmax=xmx,
                ymin=ymn, ymax=ymx, crs=wkt.new, res=res)
 
-writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T)
+writeRaster(canopy, paste0(path.new,'/','canopy.tif'), overwrite=T) 
 writeRaster(ground, paste0(path.new,'/','ground.tif'), overwrite=T)
 ground2 <- rast(paste0(path.new,'/','ground.tif'))
 canopy2 <- rast(paste0(path.new,'/','canopy.tif'))
