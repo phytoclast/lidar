@@ -1,0 +1,4 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_JUNEAU_2012/LAZ/USGS_LPC_AK_JUNEAU_2012_000096.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_JUNEAU_2012/LAZ/USGS_LPC_AK_JUNEAU_2012_000114.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_JUNEAU_2012/LAZ/USGS_LPC_AK_JUNEAU_2012_000097.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_JUNEAU_2012/LAZ/USGS_LPC_AK_JUNEAU_2012_000115.laz
