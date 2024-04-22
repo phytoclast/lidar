@@ -1,5 +1,5 @@
 library(lidR)
-library(rgdal)
+
 library(rlas)
 library(mapview)
 library(progress)
@@ -11,8 +11,8 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'allegan2'
-troubled = TRUE  #TRUE if data source is of sparse poor quality
+folder = 'anchorage2'
+troubled = F  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = TRUE #TRUE if data source is of is irregularly shaped
 single = FALSE #TRUE if consists of a single tile
@@ -25,7 +25,8 @@ path.new <- paste0('output/', folder)
 
 if(file.exists(paste0('data/', folder,'/epsg.txt'))){
 override.epsg <- read.delim( paste0('data/', folder,'/epsg.txt'))
-override.epsg <- CRS(paste0('+init=EPSG:',override.epsg[1,1]))
+if(names(override.epsg)[1]%in% 'esri'){override.epsg <- sf::st_crs(paste0('ESRI:',override.epsg[1,1]))}else{
+override.epsg <- sf::st_crs(paste0('EPSG:',override.epsg[1,1]))}
 }
 
 if(!dir.exists(path.new)){dir.create(path.new)}
@@ -63,7 +64,8 @@ str_extract(crs.old,'VERTCRS.*')
 x = as.data.frame(str_split(crs.old,'VERTCRS'))
 x = str_extract(x[2,], 'LENGTHUNIT\\[\".*\"')
 x
-if(is.na(crs.old)[1]){crs.old <- override.epsg}
+# if(is.na(crs.old)[1]){crs.old <- override.epsg}
+if(file.exists(paste0('data/', folder,'/epsg.txt'))){crs.old <- override.epsg}
 isvfeet <- grepl('vertcrs.*unit.*"foot"',tolower(crs.old)) | !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"foot"',tolower(st_crs(crs.old)))
 isvusfeet <- grepl('vertcrs.*unit.*"us survey foot"',tolower(st_crs(crs.old)))| !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"us survey foot"',tolower(st_crs(crs.old)))
 
@@ -94,7 +96,8 @@ if(is.na(crs(ground.original))|crs(ground.original) %in% ""){crs(ground.original
 ground <- ground.original * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 
-
+writeRaster(ground, paste0(path.new,'/','ground0.tif'), overwrite=T)
+ground <- rast(paste0(path.new,'/','ground0.tif'))
 plot(ground)
 
 #normalize height, remove outliers, generate canopy height model ----
