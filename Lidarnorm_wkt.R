@@ -1,5 +1,4 @@
 library(lidR)
-
 library(rlas)
 library(mapview)
 library(progress)
@@ -11,10 +10,10 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'anchorage2'
+folder = 'juneau2'
 troubled = F  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
-notsquare = TRUE #TRUE if data source is of is irregularly shaped
+notsquare = FALSE #TRUE if data source is of is irregularly shaped
 single = FALSE #TRUE if consists of a single tile
 projection.override <- FALSE #TRUE if need to override poorly formatted source CRS
 normalizeerror = FALSE #TRUE normalization step fails. This generates surface raster first instead of modifying Las data, then subtracts ground
@@ -92,7 +91,7 @@ if(notsquare){
 }else{
   ground.original <- rasterize_terrain(las.collection, res = res/hfactor, algorithm = tin())
 }
-crs(ground.original) <- crs.old
+crs(ground.original) <- crs.old[1] |> unlist()  
 ground <- ground.original * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 
@@ -105,6 +104,7 @@ plot(ground)
 for (i in 1:length(fl)){
   file.original <- fl[i]
   Las <- readLAS(paste0(path,"/",file.original), filter="-drop_class 7 18")
+  st_crs(Las) <- crs.old[1] |> unlist()
   las.norm <- normalize_height(Las,  ground.original, na.rm = TRUE)
   las.norm <- filter_noise.LAS(las.norm, 1.5, hfactor)
   file.new <- paste0(stringr::str_split_fixed(file.original,'\\.',2)[1],'.laz')
@@ -112,6 +112,7 @@ for (i in 1:length(fl)){
 }
 
 }
+
 if(single){
   las.norm <- readLAS(paste0(path.norm,"/",file.original))}else{
     las.norm <- readLAScatalog(path.norm)}
@@ -128,7 +129,7 @@ if(!troubled){
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 5)/hfactor, subcircle = subcircle/hfactor*1))
 }
 
-if(is.na(crs(canopy))|crs(canopy) %in% ""){crs(canopy) <- crs.old}
+crs(canopy) <- crs.old[1] |> unlist()
 canopy <- canopy * zfactor
 canopy[canopy > 116 | canopy < -1] <- NA
 
