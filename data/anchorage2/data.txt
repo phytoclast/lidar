@@ -1,0 +1,4 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_MATANUSKASUSITNA_LOT1_2011/LAZ/USGS_LPC_AK_MATANUSKASUSITNA_LOT1_2011_000166.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_MATANUSKASUSITNA_LOT1_2011/LAZ/USGS_LPC_AK_MATANUSKASUSITNA_LOT1_2011_000171.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_MATANUSKASUSITNA_LOT1_2011/LAZ/USGS_LPC_AK_MATANUSKASUSITNA_LOT1_2011_000204.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/legacy/AK_MATANUSKASUSITNA_LOT1_2011/LAZ/USGS_LPC_AK_MATANUSKASUSITNA_LOT1_2011_000209.laz

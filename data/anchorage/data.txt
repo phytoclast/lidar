@@ -1,0 +1,4 @@
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/Anchorage_Lidar/AK_Anchorage_2015/LAZ/USGS_LPC_Anchorage_Lidar_63656803.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/Anchorage_Lidar/AK_Anchorage_2015/LAZ/USGS_LPC_Anchorage_Lidar_63656804.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/Anchorage_Lidar/AK_Anchorage_2015/LAZ/USGS_LPC_Anchorage_Lidar_63666803.laz
+https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/Anchorage_Lidar/AK_Anchorage_2015/LAZ/USGS_LPC_Anchorage_Lidar_63666804.laz
