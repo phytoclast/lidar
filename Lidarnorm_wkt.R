@@ -22,8 +22,8 @@ normalizeerror = FALSE #TRUE normalization step fails. This generates surface ra
 path <- paste0('data/', folder,'/laz')
 path.norm <- paste0('data/', folder,'/laz.norm')
 path.new <- paste0('output/', folder)
-
-if(file.exists(paste0('data/', folder,'/epsg.txt'))){
+override  = file.exists(paste0('data/', folder,'/epsg.txt'))
+if(override){
 override.epsg <- read.delim( paste0('data/', folder,'/epsg.txt'))
 if(names(override.epsg)[1]%in% 'esri'){override.epsg <- sf::st_crs(paste0('ESRI:',override.epsg[1,1]))}else{
 override.epsg <- sf::st_crs(paste0('EPSG:',override.epsg[1,1]))}
@@ -65,7 +65,7 @@ x = as.data.frame(str_split(crs.old,'VERTCRS'))
 x = str_extract(x[2,], 'LENGTHUNIT\\[\".*\"')
 x
 # if(is.na(crs.old)[1]){crs.old <- override.epsg}
-if(file.exists(paste0('data/', folder,'/epsg.txt'))){crs.old <- override.epsg}
+if(override){crs.old <- override.epsg}
 isvfeet <- grepl('vertcrs.*unit.*"foot"',tolower(crs.old)) | !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"foot"',tolower(st_crs(crs.old)))
 isvusfeet <- grepl('vertcrs.*unit.*"us survey foot"',tolower(st_crs(crs.old)))| !grepl('vertcrs',tolower(st_crs(crs.old))) & grepl('unit.*"us survey foot"',tolower(st_crs(crs.old)))
 
@@ -92,7 +92,7 @@ if(notsquare){
 }else{
   ground.original <- rasterize_terrain(las.collection, res = res/hfactor, algorithm = tin())
 }
-if(is.na(crs(ground.original))|crs(ground.original) %in% ""){crs(ground.original) <- crs.old}
+crs(ground.original) <- crs.old
 ground <- ground.original * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 
