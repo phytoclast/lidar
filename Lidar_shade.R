@@ -28,5 +28,7 @@
   s.aspect <- terrain(surface,opt="aspect")
   sshade <- hillShade(s.slope, s.aspect, angle = 45, normalize=TRUE)
   writeRaster(sshade, filename= paste0(path,'/','sshade.tif'),
+              overwrite=TRUE, wopt=list(gdal=c("COMPRESS=LZW")))
+  writeRaster(surface, filename= paste0(path,'/','surface.tif'),
               overwrite=TRUE, wopt=list(gdal=c("COMPRESS=LZW")))}
   }
