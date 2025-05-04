@@ -10,7 +10,7 @@ library(terra)
 library(sf)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-folder = 'juneau2'
+folder = 'lepard'
 troubled = F  #TRUE if data source is of sparse poor quality
 canopyonly = FALSE
 notsquare = FALSE #TRUE if data source is of is irregularly shaped
@@ -91,7 +91,7 @@ if(notsquare){
 }else{
   ground.original <- rasterize_terrain(las.collection, res = res/hfactor, algorithm = tin())
 }
-crs(ground.original) <- crs.old[1] |> unlist()  
+terra::crs(ground.original) <- crs.old[1] |> unlist()  
 ground <- ground.original * zfactor
 ground[ground > 10000 | ground < -10000] <- NA
 
@@ -129,7 +129,7 @@ if(!troubled){
                           pitfree(thresholds = c(0, 5, 10, 15, 20, 25, 30, 45, 60)/zfactor, max_edge = c(0, 5)/hfactor, subcircle = subcircle/hfactor*1))
 }
 
-crs(canopy) <- crs.old[1] |> unlist()
+terra::crs(canopy) <- crs.old[1] |> unlist()
 canopy <- canopy * zfactor
 canopy[canopy > 116 | canopy < -1] <- NA
 
